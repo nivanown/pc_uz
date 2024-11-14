@@ -646,6 +646,96 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+/*- publications -*/
+document.addEventListener("DOMContentLoaded", function () {
+    const publications = document.getElementById("gallery-list");
+    if (!publications) return; // Если блок с id "publications" не найден, выходим из функции
+
+    const items = publications.querySelectorAll(".photo-gallery__item");
+    const toggleLink = publications.querySelector(".photo-gallery__all-link");
+    const hiddenClass = "hidden";
+    const itemsToShow = 4;
+
+    // Функция для обновления текста ссылки и видимости toggleLink
+    function updateLinkText() {
+        const hiddenItemsCount = publications.querySelectorAll(`.photo-gallery__item.${hiddenClass}`).length;
+        toggleLink.textContent = hiddenItemsCount > 0
+            ? `Показать еще ${hiddenItemsCount}`
+            : `Скрыть ${items.length - itemsToShow}`;
+
+        // Проверяем, должно ли toggleLink быть скрытым или видимым
+        const visibleItemsCount = items.length - hiddenItemsCount;
+        if (items.length > itemsToShow) {
+            toggleLink.classList.remove(hiddenClass); // Показываем ссылку, если есть больше itemsToShow элементов
+        } else if (visibleItemsCount <= itemsToShow) {
+            toggleLink.classList.add(hiddenClass); // Скрываем ссылку, если видимых элементов <= itemsToShow
+        }
+    }
+
+    // Изначально скрываем все элементы кроме первых itemsToShow
+    items.forEach((item, index) => {
+        if (index >= itemsToShow) {
+            item.classList.add(hiddenClass);
+        }
+    });
+
+    // Устанавливаем начальный текст ссылки и видимость toggleLink
+    updateLinkText();
+
+    // Переключение состояния по клику
+    toggleLink.addEventListener("click", function () {
+        const isHidden = items[itemsToShow].classList.contains(hiddenClass);
+
+        if (isHidden) {
+            // Показываем все элементы
+            items.forEach(item => item.classList.remove(hiddenClass));
+        } else {
+            // Скрываем все элементы, начиная с itemsToShow
+            items.forEach((item, index) => {
+                if (index >= itemsToShow) {
+                    item.classList.add(hiddenClass);
+                }
+            });
+        }
+
+        // Обновляем текст ссылки и видимость toggleLink после изменения видимости элементов
+        updateLinkText();
+    });
+});
+
+/*- info-block -*/
+document.addEventListener("DOMContentLoaded", function() {
+    const infoBlock = document.getElementById("info-block");
+    const paragraphs = infoBlock.querySelectorAll("p");
+    const allLink = infoBlock.querySelector(".info-block__all-link");
+
+    // Показываем только 3 первых параграфа, остальные скрываем
+    if (paragraphs.length > 3) {
+        paragraphs.forEach((p, index) => {
+            if (index >= 3) {
+                p.classList.add("hidden");
+            }
+        });
+    } else {
+        allLink.classList.add("hidden");
+    }
+
+    // Обработчик клика на ссылку "Читать все"
+    allLink.addEventListener("click", function() {
+        const isExpanded = allLink.textContent === "Скрыть";
+        
+        // Меняем текст ссылки
+        allLink.textContent = isExpanded ? "Читать все" : "Скрыть";
+        
+        // Переключаем видимость параграфов
+        paragraphs.forEach((p, index) => {
+            if (index >= 3) {
+                p.classList.toggle("hidden", isExpanded);
+            }
+        });
+    });
+});
+
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
