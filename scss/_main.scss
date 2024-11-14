@@ -86,6 +86,9 @@
 	&_indent-bottom {
 		margin: 0 0 3.75rem;
 		}
+	&_indent-bottom-small {
+		margin: 0 0 2.5rem;
+		}
 	&__item {
 		position: relative;
 		&:before {
@@ -1805,6 +1808,14 @@
 	&_changed {
 		margin: 0 0 3.75rem;
 		background: var(--primary-background-color);
+		.company-item__title {
+			color: var(--primary-text-color);
+			}
+		.company-item__top-col {
+			p {
+				color: var(--primary-text-color);
+				}
+			}
 		}
 	&__top-col {
 		position: relative;
@@ -1848,8 +1859,11 @@
 			font-weight: var(--primary-font-weight);
 			}
 		}
-	.check-icon {
+	&__icons-col {
 		position: absolute;
+		display: flex;
+		align-items: center;
+		gap: 0 0.625rem;
 		top: 0;
 		right: 0;
 		}
@@ -1959,6 +1973,12 @@
 		color: var(--tertiary-text-color);
 		font-size: 1rem;
 		line-height: 1.5rem;
+		a {
+			color: var(--tertiary-text-color);
+			&:hover {
+				color: var(--quaternary-text-color);
+				}
+			}
 		}
 	&__col {
 		display: flex;
@@ -1995,9 +2015,33 @@
 .info-block {
 	margin: 0 0 2.5rem;
 	p {
+		margin: 0 0 0.9375rem;
 		color: var(--secondary-text-color);
 		font-size: 1rem;
 		line-height: 1.625rem;
+		&:last-child {
+			margin: 0;
+			}
+		&.hidden {
+			display: none;
+			}
+		}
+	&__all-link {
+		display: inline-block;
+	  vertical-align: top;
+	  color: var(--secondary-btn-color);
+	  font-size: 16px;
+	  font-family: var(--secondary-font-family);
+	  font-weight: var(--secondary-font-weight);
+	  line-height: 24px;
+	  cursor: pointer;
+	  transition: 0.3s color;
+	  &:hover {
+	  	color: var(--quaternary-text-color);
+	  	}
+	  &.hidden {
+	  	display: none;
+	  	}
 		}
 	}
 
@@ -2764,5 +2808,68 @@
 		margin: 0 0 1.875rem;
 		font-size: 1.25rem;
 		line-height: 2.125rem;
+		}
+	}
+
+/* btn-panel */
+.btn-panel {
+	margin: 0 0 2.5rem;
+	padding: 1.25rem 0 0;
+	.btn {
+		width: 100%;
+		}
+	}
+
+/* photo-gallery */
+.photo-gallery {
+	margin: 0 0 2.5rem;
+	&__list {
+		display: grid;
+	  grid-template-columns: repeat(4, 1fr);
+	  grid-auto-rows: min-content;
+	  gap: 1.25rem 1.25rem;
+	  margin: 0 0 1.25rem;
+		}
+	&__item {
+		a {
+			display: block;
+			width: 100%;
+			height: 100%;
+			border-radius: 0.5rem;
+			overflow: hidden;
+			&:hover {
+				img {
+					transform: scale(1.1);
+					}
+				}
+			}
+		img {
+			width: 100%;
+			border-radius: 0.5rem;
+			transition: .3s transform;
+			}
+		&.hidden {
+			display: none;
+			}
+		}
+	&__all-link {
+		display: inline-block;
+	  vertical-align: top;
+	  color: var(--secondary-btn-color);
+	  font-size: 1rem;
+	  font-family: var(--secondary-font-family);
+	  font-weight: var(--secondary-font-weight);
+	  line-height: 1.5rem;
+	  cursor: pointer;
+	  transition: 0.3s color;
+	  justify-self: start;
+	  align-self: end;
+	  grid-column: 1 / -1;
+	  &:hover {
+	  	color: var(--quaternary-text-color);
+	  	}
+	  &.hidden {
+	  	display: none;
+	  	}
 		}
 	}
