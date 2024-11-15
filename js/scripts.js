@@ -508,61 +508,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-/*- reviews-list -*/
-document.addEventListener("DOMContentLoaded", function () {
-    const reviewsList = document.getElementById("reviews-list");
-    if (!reviewsList) return; // Если блок с id "reviews-list" не найден, выходим из функции
-    
-    const items = reviewsList.querySelectorAll(".reviews-list__item");
-    const toggleLink = reviewsList.querySelector(".reviews-list__all-link");
-    const hiddenClass = "hidden";
-    const itemsToShow = 2;
-    
-    // Функция для обновления текста ссылки и видимости toggleLink
-    function updateLinkText() {
-        const hiddenItemsCount = reviewsList.querySelectorAll(`.reviews-list__item.${hiddenClass}`).length;
-        toggleLink.textContent = hiddenItemsCount > 0 
-            ? `Показать ещё ${hiddenItemsCount}` 
-            : `Скрыть ${items.length - itemsToShow}`;
-
-        // Проверка на видимость toggleLink в зависимости от количества элементов
-        const visibleItemsCount = items.length - hiddenItemsCount;
-        if (items.length > itemsToShow) {
-            toggleLink.classList.remove(hiddenClass); // Показываем ссылку, если больше itemsToShow элементов
-        } else if (visibleItemsCount <= itemsToShow) {
-            toggleLink.classList.add(hiddenClass); // Скрываем ссылку, если видимых элементов <= itemsToShow
-        }
-    }
-    
-    // Изначально скрываем все элементы, кроме первых двух
-    items.forEach((item, index) => {
-        if (index >= itemsToShow) {
-            item.classList.add(hiddenClass);
-        }
-    });
-
-    // Устанавливаем начальный текст ссылки и видимость toggleLink
-    updateLinkText();
-    
-    // Переключение состояния по клику
-    toggleLink.addEventListener("click", function () {
-        const isHidden = items[itemsToShow].classList.contains(hiddenClass);
-        
-        if (isHidden) {
-            items.forEach(item => item.classList.remove(hiddenClass));
-        } else {
-            items.forEach((item, index) => {
-                if (index >= itemsToShow) {
-                    item.classList.add(hiddenClass);
-                }
-            });
-        }
-        
-        // Обновляем текст ссылки и видимость toggleLink после изменения видимости элементов
-        updateLinkText();
-    });
-});
-
 /*- social-panel -*/
 document.addEventListener("DOMContentLoaded", () => {
     const icon = document.querySelector(".social-panel__icon");
@@ -646,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-/*- publications -*/
+/*- photo-gallery -*/
 document.addEventListener("DOMContentLoaded", function () {
     const publications = document.getElementById("gallery-list");
     if (!publications) return; // Если блок с id "publications" не найден, выходим из функции
@@ -706,6 +651,10 @@ document.addEventListener("DOMContentLoaded", function () {
 /*- info-block -*/
 document.addEventListener("DOMContentLoaded", function() {
     const infoBlock = document.getElementById("info-block");
+
+    // Проверяем, существует ли блок "info-block" на странице
+    if (!infoBlock) return;
+
     const paragraphs = infoBlock.querySelectorAll("p");
     const allLink = infoBlock.querySelector(".info-block__all-link");
 
@@ -716,12 +665,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 p.classList.add("hidden");
             }
         });
-    } else {
+    } else if (allLink) {
         allLink.classList.add("hidden");
     }
 
     // Обработчик клика на ссылку "Читать все"
-    allLink.addEventListener("click", function() {
+    allLink?.addEventListener("click", function() {
         const isExpanded = allLink.textContent === "Скрыть";
         
         // Меняем текст ссылки
@@ -734,6 +683,43 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     });
+});
+
+/*- scroll -*/
+var el = document.querySelector('.gl-modal__scroll');
+if (el) {
+    SimpleScrollbar.initEl(el);
+}
+
+/*- gl-modal -*/
+document.addEventListener('click', (event) => {
+    // Открытие модального окна при наличии атрибута data-target
+    const targetSelector = event.target.dataset.target;
+    if (targetSelector) {
+        const modal = document.querySelector(targetSelector);
+
+        if (modal) {
+            modal.classList.add('show'); // Добавляем класс 'show'
+            document.body.classList.add('scroll-none'); // Отключаем скролл на body
+        }
+    }
+
+    // Закрытие модального окна
+    if (
+        event.target.matches('.gl-modal__close-btn') || // Клик по кнопке закрытия
+        event.target.matches('.gl-modal__overlay')     // Клик по оверлею
+    ) {
+        const modal = event.target.closest('.gl-modal'); // Находим родительское модальное окно
+
+        if (modal) {
+            modal.classList.remove('show'); // Удаляем класс 'show'
+        }
+
+        // Проверяем, если больше нет активных модальных окон
+        if (!document.querySelector('.gl-modal.show')) {
+            document.body.classList.remove('scroll-none'); // Включаем скролл на body
+        }
+    }
 });
 
 /*- mobile-menu -*/
@@ -753,6 +739,8 @@ closeBtn.addEventListener('click', () => {
     mobileMenu.classList.remove('show');
     body.classList.remove('m-scroll-none');
 });
+
+
 
 
 
