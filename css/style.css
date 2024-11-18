@@ -353,7 +353,8 @@ textarea::-webkit-input-placeholder {
   height: 1.25rem;
   vertical-align: top;
   border: 0;
-  background: var(--secondary-btn-color);
+  box-shadow: 0 0 0 2px var(--nine-border-color) inset;
+  background: var(--secondary-background-color);
   border-radius: 0.125rem;
   outline: 0;
   cursor: pointer;
@@ -374,6 +375,9 @@ textarea::-webkit-input-placeholder {
   content: "";
   opacity: 0;
   transition: opacity 0.3s linear;
+}
+.checkbox input:checked {
+  background: var(--secondary-btn-color);
 }
 .checkbox input:checked:before {
   opacity: 1;
