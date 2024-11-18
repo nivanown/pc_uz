@@ -5631,6 +5631,7 @@ textarea::-webkit-input-placeholder {
   .product-slider__small {
     display: none !important;
   }
+  /* characteristic-list */
   .characteristic-list dl {
     font-size: 0.9375rem;
     line-height: 1.375rem;
