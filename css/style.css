@@ -5787,23 +5787,23 @@ textarea::-webkit-input-placeholder {
   }
   /* product-modal */
   .product-modal__close-button {
-    width: 24px;
-    height: 24px;
-    top: 20px;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 1.25rem;
     right: 0;
-    border-radius: 4px;
+    border-radius: 0.25rem;
   }
   .product-modal__close-button:before {
-    background-size: 12px 12px;
+    background-size: 0.75rem 0.75rem;
   }
   .product-modal__content {
     flex-direction: column;
-    padding: 60px 0;
+    padding: 3.75rem 0;
     gap: 0 0;
     width: 100%;
   }
   .product-modal__photo {
-    margin: 0 -20px 20px;
+    margin: 0 -1.25rem 1.25rem;
     width: auto;
   }
   .product-modal__col {
