@@ -289,6 +289,9 @@ textarea::-webkit-input-placeholder {
       content: "";
       }
     }
+  &_full-size {
+    width: 100%;
+    }
   }
 
 /* wrapper */
@@ -389,6 +392,8 @@ textarea::-webkit-input-placeholder {
   font-size: 1rem;
   font-weight: var(--secondary-font-weight);
   line-height: 1.5rem;
+  transition: .3s color;
+  cursor: pointer;
   &:hover {
     color: var(--quaternary-text-color);
     }
