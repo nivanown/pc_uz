@@ -5080,7 +5080,7 @@ textarea::-webkit-input-placeholder {
   }
   /* search-panel */
   .search-panel__dropdown {
-    top: 12.5rem;
+    top: 16.5625rem;
   }
   .search-panel__dropdown-in {
     padding: 1.25rem 0;
