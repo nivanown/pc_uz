@@ -649,7 +649,6 @@ textarea::-webkit-input-placeholder {
 
 /* menu-btn */
 .menu-btn {
-  position: relative;
   display: none;
   width: 1.25rem;
   cursor: pointer;
@@ -5070,6 +5069,9 @@ textarea::-webkit-input-placeholder {
     display: block;
   }
   /* header */
+  .header__banner {
+    margin: 0 -1.25rem;
+  }
   .header__in {
     padding: 0.9375rem 0 0.25rem;
   }
@@ -5078,7 +5080,7 @@ textarea::-webkit-input-placeholder {
   }
   /* search-panel */
   .search-panel__dropdown {
-    top: 15.0625rem;
+    top: 12.5rem;
   }
   .search-panel__dropdown-in {
     padding: 1.25rem 0;
