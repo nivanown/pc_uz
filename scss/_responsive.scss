@@ -60,6 +60,9 @@ html {
 
 /* header */
 .header {
+	&__banner {
+		margin: 0 -1.25rem;
+		}
 	&__in {
 		padding: 0.9375rem 0 0.25rem;
 		}
@@ -71,7 +74,7 @@ html {
 /* search-panel */
 .search-panel {
 	&__dropdown {
-		top: 15.0625rem;
+		top: 12.5rem;
 		}
 	&__dropdown-in {
 		padding: 1.25rem 0;
