@@ -168,7 +168,8 @@ textarea::-webkit-input-placeholder {
     height: 1.25rem;
     vertical-align: top;
     border: 0;
-    background: var(--secondary-btn-color);
+    box-shadow: 0 0 0 2px var(--nine-border-color) inset;
+    background: var(--secondary-background-color);
     border-radius: 0.125rem;
     outline: 0;
     cursor: pointer;
@@ -190,6 +191,7 @@ textarea::-webkit-input-placeholder {
       transition: opacity .3s linear;
       }
     &:checked {
+      background: var(--secondary-btn-color);
       &:before {
         opacity: 1;
         }
