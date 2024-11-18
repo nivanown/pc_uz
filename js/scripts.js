@@ -862,6 +862,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+/*- mail -*/
+document.getElementById("mail").addEventListener("input", function (event) {
+    const inputField = event.target;
+    const value = inputField.value;
+
+    // Удаляем символы кириллицы
+    const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
+
+    // Если строка изменилась, обновляем значение поля
+    if (value !== filteredValue) {
+        inputField.value = filteredValue;
+
+        // Опционально: показываем предупреждение
+        inputField.style.borderColor = "red";
+        inputField.setCustomValidity("Кириллица запрещена");
+    } else {
+        inputField.style.borderColor = "";
+        inputField.setCustomValidity("");
+    }
+});
+
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
