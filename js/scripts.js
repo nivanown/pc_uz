@@ -887,6 +887,25 @@ if (mailField) {
     });
 }
 
+/*- search-form -*/
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('search-form'); // Проверяем наличие формы
+    if (!form) return; // Если форма отсутствует, выходим из функции
+
+    const input = document.getElementById('search-input'); // Проверяем наличие input
+    const button = document.getElementById('search-button'); // Проверяем наличие button
+
+    if (!input || !button) return; // Если хотя бы одного элемента нет, выходим из функции
+
+    input.addEventListener('input', () => {
+        if (input.value.trim() === '') {
+            button.disabled = true;
+        } else {
+            button.disabled = false;
+        }
+    });
+});
+
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
