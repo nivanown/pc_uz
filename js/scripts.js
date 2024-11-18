@@ -836,6 +836,32 @@ var swiper2 = new Swiper(".product-slider__big", {
     },
 });
 
+/*- product-modal -*/
+document.addEventListener('DOMContentLoaded', () => {
+    // Обработчик для элементов с атрибутом data-modal
+    document.querySelectorAll('[data-modal]').forEach(element => {
+        element.addEventListener('click', () => {
+            const modalId = element.dataset.modal; // Получаем ID модального окна
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('show'); // Добавляем класс show
+                document.body.classList.add('scroll-none'); // Блокируем прокрутку
+            }
+        });
+    });
+
+    // Обработчик для кнопок закрытия модальных окон
+    document.querySelectorAll('.product-modal__close-button').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            const modal = closeBtn.closest('.product-modal'); // Находим родительский модальный блок
+            if (modal) {
+                modal.classList.remove('show'); // Убираем класс show
+                document.body.classList.remove('scroll-none'); // Убираем блокировку скролла
+            }
+        });
+    });
+});
+
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
