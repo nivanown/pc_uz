@@ -96,73 +96,73 @@ document.querySelectorAll('.tabs__nav li').forEach(button => {
 
 // Функция для получения текущего размера rem
 function getRemSize() {
-  return parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
 let swiperInstances = [];
 
 function initializeSwipers() {
-  // Если уже есть экземпляры Swiper, уничтожаем их перед созданием новых
-  if (swiperInstances.length > 0) {
-    swiperInstances.forEach(instance => instance.destroy(true, true));
-    swiperInstances = [];
-  }
+    // Если уже есть экземпляры Swiper, уничтожаем их перед созданием новых
+    if (swiperInstances.length > 0) {
+        swiperInstances.forEach(instance => instance.destroy(true, true));
+        swiperInstances = [];
+    }
 
-  const remSize = getRemSize();
+    const remSize = getRemSize();
 
-  const swiperConfigs = [
-    { container: '#products-slider-1', nextButton: '#products-slider-1 .swiper-button-next', prevButton: '#products-slider-1 .swiper-button-prev', sliderPagination: '#products-slider-1 .swiper-pagination' },
-    { container: '#products-slider-2', nextButton: '#products-slider-2 .swiper-button-next', prevButton: '#products-slider-2 .swiper-button-prev', sliderPagination: '#products-slider-2 .swiper-pagination' },
-    { container: '#products-slider-3', nextButton: '#products-slider-3 .swiper-button-next', prevButton: '#products-slider-3 .swiper-button-prev', sliderPagination: '#products-slider-3 .swiper-pagination' },
-    { container: '#company-slider', nextButton: '#company-slider .swiper-button-next', prevButton: '#company-slider .swiper-button-prev', sliderPagination: '#company-slider .swiper-pagination' },
-  ];
+    const swiperConfigs = [
+        { container: '#products-slider-1', nextButton: '#products-slider-1 .swiper-button-next', prevButton: '#products-slider-1 .swiper-button-prev', sliderPagination: '#products-slider-1 .swiper-pagination' },
+        { container: '#products-slider-2', nextButton: '#products-slider-2 .swiper-button-next', prevButton: '#products-slider-2 .swiper-button-prev', sliderPagination: '#products-slider-2 .swiper-pagination' },
+        { container: '#products-slider-3', nextButton: '#products-slider-3 .swiper-button-next', prevButton: '#products-slider-3 .swiper-button-prev', sliderPagination: '#products-slider-3 .swiper-pagination' },
+        { container: '#company-slider', nextButton: '#company-slider .swiper-button-next', prevButton: '#company-slider .swiper-button-prev', sliderPagination: '#company-slider .swiper-pagination' },
+    ];
 
-  swiperConfigs.forEach(config => {
-    const swiperInstance = new Swiper(config.container, {
-      autoplay: false,
-      autoHeight: false,
-      loop: false,
-      slidesPerView: 5,
-      slidesPerGroup: 5,
-      spaceBetween: false,
-      breakpoints: {
-        0: {
-          slidesPerView: 2,
-          spaceBetween: false,
-          slidesPerGroup: 2,
-        },
-        460: {
-          slidesPerView: 2,
-          spaceBetween: false,
-          slidesPerGroup: 2,
-        },
-        768: {
-          slidesPerView: 5,
-          spaceBetween: false,
-        },
-        1079: {
-          slidesPerView: 5,
-          spaceBetween: false,
-        },
-      },
-      pagination: {
-        el: config.sliderPagination,
-        clickable: true,
-      },
-      navigation: {
-        nextEl: config.nextButton,
-        prevEl: config.prevButton,
-      },
+    swiperConfigs.forEach(config => {
+        const swiperInstance = new Swiper(config.container, {
+            autoplay: false,
+            autoHeight: false,
+            loop: false,
+            slidesPerView: 5,
+            slidesPerGroup: 5,
+            spaceBetween: false,
+            breakpoints: {
+            0: {
+                slidesPerView: 2,
+                spaceBetween: false,
+                slidesPerGroup: 2,
+                },
+            460: {
+                slidesPerView: 2,
+                spaceBetween: false,
+                slidesPerGroup: 2,
+                },
+            768: {
+                slidesPerView: 5,
+                spaceBetween: false,
+                },
+            1079: {
+                slidesPerView: 5,
+                spaceBetween: false,
+                },
+            },
+        pagination: {
+            el: config.sliderPagination,
+            clickable: true,
+            },
+        navigation: {
+            nextEl: config.nextButton,
+            prevEl: config.prevButton,
+            },
+        });
+        swiperInstances.push(swiperInstance);
     });
-    swiperInstances.push(swiperInstance);
-  });
 }
 
 // Дебаунс для оптимизации вызова при изменении размера окна
 let resizeTimeout;
 window.addEventListener('resize', () => {
-  clearTimeout(resizeTimeout);
-  resizeTimeout = setTimeout(initializeSwipers, 300);
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initializeSwipers, 300);
 });
 
 // Инициализируем слайдеры при загрузке
@@ -686,9 +686,11 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /*- scroll -*/
-var el = document.querySelector('.gl-modal__scroll');
-if (el) {
-    SimpleScrollbar.initEl(el);
+var elements = document.querySelectorAll('.gl-modal__scroll');
+if (elements.length > 0) {
+    elements.forEach(function(el) {
+        SimpleScrollbar.initEl(el);
+    });
 }
 
 /*- gl-modal -*/
@@ -720,6 +722,118 @@ document.addEventListener('click', (event) => {
             document.body.classList.remove('scroll-none'); // Включаем скролл на body
         }
     }
+});
+
+/*- gallery-modal -*/
+document.addEventListener('DOMContentLoaded', () => {
+    const galleryItems = document.querySelectorAll('.photo-gallery__item');
+    const modal = document.querySelector('.gallery-modal');
+    const modalOverlay = document.querySelector('.gallery-modal__overlay');
+    const body = document.body;
+
+    // Проверяем, есть ли элементы на странице, прежде чем вешать обработчики
+    if (galleryItems.length > 0 && modal && modalOverlay) {
+        // Открытие модального окна
+        galleryItems.forEach(item => {
+            item.addEventListener('click', (event) => {
+                event.preventDefault(); // предотвращаем переход по ссылке
+                modal.classList.add('show');
+                body.classList.add('scroll-none');
+            });
+        });
+
+        // Закрытие модального окна
+        modalOverlay.addEventListener('click', () => {
+            modal.classList.remove('show');
+            body.classList.remove('scroll-none');
+        });
+    }
+});
+
+/*- gallery-slider -*/
+var swiper = new Swiper(".gallery-slider__small .swiper", {
+    loop: true,
+    spaceBetween: false,
+    slidesPerView: 8,
+    freeMode: true,
+    watchSlidesProgress: true,
+    breakpoints: {
+    0: {
+        slidesPerView: 3,
+        spaceBetween: false,
+        },
+    460: {
+        slidesPerView: 3,
+        spaceBetween: false,
+        },
+    767: {
+        slidesPerView: 5,
+        spaceBetween: false,
+        },
+    1079: {
+        slidesPerView: 8,
+        spaceBetween: false,
+        },
+    },
+    navigation: {
+        nextEl: ".gallery-slider__small .swiper-button-next",
+        prevEl: ".gallery-slider__small .swiper-button-prev",
+    },
+});
+
+var swiper2 = new Swiper(".gallery-slider__big", {
+    loop: true,
+    spaceBetween: 10,
+    thumbs: {
+        swiper: swiper,
+    },
+    pagination: {
+        el: ".swiper-pagination",
+        type: "fraction",
+    },
+});
+
+/*- gallery-slider -*/
+var swiper = new Swiper(".product-slider__small", {
+    loop: false,
+    spaceBetween: false,
+    slidesPerView: 5,
+    freeMode: true,
+    watchSlidesProgress: true,
+    breakpoints: {
+    0: {
+        slidesPerView: 3,
+        spaceBetween: false,
+        },
+    460: {
+        slidesPerView: 3,
+        spaceBetween: false,
+        },
+    767: {
+        slidesPerView: 5,
+        spaceBetween: false,
+        },
+    1079: {
+        slidesPerView: 5,
+        spaceBetween: false,
+        },
+    },
+});
+
+var swiper2 = new Swiper(".product-slider__big", {
+    loop: false,
+    spaceBetween: 10,
+    thumbs: {
+        swiper: swiper,
+    },
+    navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+        el: ".swiper-pagination",
+        type: "fraction",
+    },
 });
 
 /*- mobile-menu -*/
