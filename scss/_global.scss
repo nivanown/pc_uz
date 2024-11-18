@@ -265,6 +265,12 @@ textarea::-webkit-input-placeholder {
       background: var(--primary-btn-color);
       }
     }
+  &_color-dark {
+    background: var(--tertiary-btn-color);
+    &:hover {
+      background: var(--secondary-btn-color);
+      }
+    }
   &_big-size {
     padding: 0.8125rem 1.875rem 0.9375rem;
     min-width: 6.875rem;
