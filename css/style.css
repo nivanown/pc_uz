@@ -448,6 +448,12 @@ textarea::-webkit-input-placeholder {
 .btn_color-dark-blue:hover {
   background: var(--primary-btn-color);
 }
+.btn_color-dark {
+  background: var(--tertiary-btn-color);
+}
+.btn_color-dark:hover {
+  background: var(--secondary-btn-color);
+}
 .btn_big-size {
   padding: 0.8125rem 1.875rem 0.9375rem;
   min-width: 6.875rem;
