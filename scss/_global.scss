@@ -247,7 +247,6 @@ textarea::-webkit-input-placeholder {
   &[disabled] {
     color: var(--fifth-text-color);
     background: var(--quaternary-btn-color);
-    box-shadow: none;
     cursor: default;
     }
   &_color-transparent {
@@ -256,7 +255,7 @@ textarea::-webkit-input-placeholder {
     box-shadow: 0 0 0 0.0625rem var(--secondary-border-color) inset;
     &[disabled] {
       color: var(--six-text-color);
-      border: 1px solid var(--tertiary-border-color);
+      box-shadow: 0 0 0 0.0625rem var(--tertiary-border-color) inset;
       background: inherit;
       }
     }
