@@ -863,25 +863,29 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /*- mail -*/
-document.getElementById("mail").addEventListener("input", function (event) {
-    const inputField = event.target;
-    const value = inputField.value;
+const mailField = document.getElementById("mail");
 
-    // Удаляем символы кириллицы
-    const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
+if (mailField) {
+    mailField.addEventListener("input", function (event) {
+        const inputField = event.target;
+        const value = inputField.value;
 
-    // Если строка изменилась, обновляем значение поля
-    if (value !== filteredValue) {
-        inputField.value = filteredValue;
+        // Удаляем символы кириллицы
+        const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
 
-        // Опционально: показываем предупреждение
-        inputField.style.borderColor = "red";
-        inputField.setCustomValidity("Кириллица запрещена");
-    } else {
-        inputField.style.borderColor = "";
-        inputField.setCustomValidity("");
-    }
-});
+        // Если строка изменилась, обновляем значение поля
+        if (value !== filteredValue) {
+            inputField.value = filteredValue;
+
+            // Опционально: показываем предупреждение
+            inputField.style.borderColor = "red";
+            inputField.setCustomValidity("Кириллица запрещена");
+        } else {
+            inputField.style.borderColor = "";
+            inputField.setCustomValidity("");
+        }
+    });
+}
 
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
