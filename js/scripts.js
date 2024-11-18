@@ -887,6 +887,27 @@ if (mailField) {
     });
 }
 
+/*- name -*/
+const nameInput = document.getElementById('name');
+
+if (nameInput) {
+    // Добавляем обработчик события ввода
+    nameInput.addEventListener('input', (event) => {
+        const value = event.target.value;
+
+        // Оставляем только буквы (удаляем все лишние символы)
+        const lettersOnly = value.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, '');
+        
+        // Если введённое значение изменилось, обновляем поле
+        if (value !== lettersOnly) {
+            event.target.value = lettersOnly;
+            nameInput.style.borderColor = "red"; // Красная рамка
+        } else {
+            nameInput.style.borderColor = ""; // Сбрасываем стиль
+        }
+    });
+}
+
 /*- search-form -*/
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('search-form'); // Проверяем наличие формы
@@ -923,9 +944,3 @@ closeBtn.addEventListener('click', () => {
     mobileMenu.classList.remove('show');
     body.classList.remove('m-scroll-none');
 });
-
-
-
-
-
-
