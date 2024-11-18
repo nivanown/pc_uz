@@ -939,4 +939,36 @@ html {
 	margin: 0 0 3.125rem;
 	}
 
+/* product-modal */
+.product-modal {
+	&__close-button {
+		width: 24px;
+		height: 24px;
+		top: 20px;
+		right: 0;
+		border-radius: 4px;
+		&:before {
+			background-size: 12px 12px;
+			}
+		}
+	&__content {
+		flex-direction: column;
+		padding: 60px 0;
+		gap: 0 0;
+		width: 100%;
+		}
+	&__photo {
+		margin: 0 -20px 20px;
+		width: auto;
+		}
+	&__col {
+		flex-direction: column;
+		gap: 0;
+		}
+	&__right-col {
+		padding: 0;
+		width: 100%;
+		}
+	}
+
 }
