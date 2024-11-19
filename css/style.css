@@ -1202,7 +1202,6 @@ textarea::-webkit-input-placeholder {
 
 /* main */
 .main {
-  display: block;
   padding: 1.875rem 0 5rem;
 }
 .main__in {
