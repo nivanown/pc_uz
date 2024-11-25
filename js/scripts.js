@@ -999,55 +999,57 @@ if (passwordInput && repeatPasswordInput) {
 /*- phone -*/
 const phoneInput = document.getElementById('phone');
 
-phoneInput.addEventListener('input', () => {
-  let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+if (phoneInput) {
+  phoneInput.addEventListener('input', () => {
+    let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
 
-  // Убеждаемся, что префикс "+998" всегда есть
-  if (!value.startsWith('998')) {
-    value = '998' + value;
-  }
-
-  // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
-  value = value.slice(0, 12);
-
-  // Форматируем в маску +998 XX XXX-XX-XX
-  const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
-  phoneInput.value = formattedValue.trim();
-});
-
-phoneInput.addEventListener('keydown', (e) => {
-  if (e.key === 'Backspace') {
-    let value = phoneInput.value;
-
-    // Если пытаются удалить префикс "+998", блокируем удаление
-    if (value === '+998 ' || value === '+998') {
-      e.preventDefault();
-      return;
+    // Убеждаемся, что префикс "+998" всегда есть
+    if (!value.startsWith('998')) {
+      value = '998' + value;
     }
 
-    // Позиция каретки
-    const cursorPos = phoneInput.selectionStart;
+    // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
+    value = value.slice(0, 12);
 
-    // Если удаляется символ форматирования (например, " " или "-"), перемещаем каретку влево
-    if (cursorPos > 0 && /[ -]/.test(value[cursorPos - 1])) {
-      e.preventDefault(); // Предотвращаем стандартное удаление
-      const newCursorPos = cursorPos - 1; // Перемещаем каретку влево
-      phoneInput.setSelectionRange(newCursorPos, newCursorPos); // Устанавливаем новую позицию
+    // Форматируем в маску +998 XX XXX-XX-XX
+    const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
+    phoneInput.value = formattedValue.trim();
+  });
+
+  phoneInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace') {
+      let value = phoneInput.value;
+
+      // Если пытаются удалить префикс "+998", блокируем удаление
+      if (value === '+998 ' || value === '+998') {
+        e.preventDefault();
+        return;
+      }
+
+      // Позиция каретки
+      const cursorPos = phoneInput.selectionStart;
+
+      // Если удаляется символ форматирования (например, " " или "-"), перемещаем каретку влево
+      if (cursorPos > 0 && /[ -]/.test(value[cursorPos - 1])) {
+        e.preventDefault(); // Предотвращаем стандартное удаление
+        const newCursorPos = cursorPos - 1; // Перемещаем каретку влево
+        phoneInput.setSelectionRange(newCursorPos, newCursorPos); // Устанавливаем новую позицию
+      }
     }
-  }
-});
+  });
 
-phoneInput.addEventListener('focus', () => {
-  if (!phoneInput.value || phoneInput.value === '+998') {
-    phoneInput.value = '+998 ';
-  }
-});
+  phoneInput.addEventListener('focus', () => {
+    if (!phoneInput.value || phoneInput.value === '+998') {
+      phoneInput.value = '+998 ';
+    }
+  });
 
-phoneInput.addEventListener('blur', () => {
-  if (phoneInput.value === '+998 ') {
-    phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
-  }
-});
+  phoneInput.addEventListener('blur', () => {
+    if (phoneInput.value === '+998 ') {
+      phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
+    }
+  });
+}
 
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
