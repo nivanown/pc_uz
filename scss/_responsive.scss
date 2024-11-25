@@ -974,4 +974,27 @@ html {
 		}
 	}
 
+/* personal-account */
+.personal-account {
+	flex-direction: column;
+	gap: 2.5rem 0;
+	}
+
+/* account-widget */
+.account-widget {
+	width: 100%;
+	}
+
+/* form */
+.form {
+	&__col {
+		grid-template-columns: repeat(1, 1fr);
+		}
+	&_three-col {
+		.form__col {
+			grid-template-columns: repeat(1, 1fr);
+			}
+		}
+	}
+
 }

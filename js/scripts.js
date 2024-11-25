@@ -261,72 +261,77 @@ var swiper = new Swiper(".vertical-scroll", {
 });
 
 /*- categories-col -*/
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const categoriesCol = document.querySelector(".categories-col");
-    
-    // Если блок с классом categories-col не найден, прекращаем выполнение
+
     if (!categoriesCol) return;
 
     const allLink = categoriesCol.querySelector(".categories-col__all-link");
+    const hideLink = categoriesCol.querySelector(".categories-col__hide-link");
     const listItems = categoriesCol.querySelectorAll(".categories-col__list li");
 
-    // Если элементов списка нет, прекращаем выполнение
-    if (listItems.length === 0 || !allLink) return;
+    if (listItems.length === 0 || !allLink || !hideLink) return;
 
-    // Функция для обновления видимости элементов и ссылки
-    function updateListItems() {
+    // Функция для определения количества видимых элементов в зависимости от разрешения
+    function getItemsToShow() {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
-        const itemsToShow = isMobile ? 4 : 9;
+        return isMobile ? 4 : 9;
+    }
 
-        // Показываем или скрываем `allLink` в зависимости от количества элементов
-        if (listItems.length <= itemsToShow) {
-            allLink.classList.add("hidden");
-        } else {
-            allLink.classList.remove("hidden");
-        }
+    // Функция для обновления отображения списка и ссылок
+    function updateListItems(showAll = false) {
+        const itemsToShow = getItemsToShow();
 
-        // Скрываем или показываем элементы
+        // Обновляем видимость элементов списка
         listItems.forEach((item, index) => {
             if (index >= itemsToShow) {
-                item.classList.add("hidden");
+                item.classList.toggle("hidden", !showAll);
             } else {
                 item.classList.remove("hidden");
             }
         });
+
+        // Управляем видимостью ссылок
+        if (listItems.length <= itemsToShow) {
+            allLink.classList.add("hidden");
+            hideLink.classList.remove("open");
+            allLink.classList.remove("close");
+        } else if (!showAll) {
+            allLink.classList.remove("hidden", "close");
+            hideLink.classList.remove("open");
+        }
     }
 
-    // Изначально скрываем элементы и обновляем ссылку по ширине экрана
-    updateListItems();
+    // Клик по "Показать все рубрики"
+    allLink.addEventListener("click", function () {
+        allLink.classList.add("close");
+        hideLink.classList.add("open");
 
-    // Слушаем изменение ширины экрана и обновляем отображение
-    window.addEventListener("resize", updateListItems);
-
-    allLink.addEventListener("click", function() {
-        const isMobile = window.matchMedia("(max-width: 767px)").matches;
-        const itemsToShow = isMobile ? 4 : 9;
-
-        // Переключаем класс hidden у элементов, начиная с itemsToShow
-        listItems.forEach((item, index) => {
-            if (index >= itemsToShow) {
-                item.classList.toggle("hidden");
-            }
-        });
-
-        // Меняем текст ссылки и переключаем класс open
-        if (allLink.textContent === "Показать все рубрики") {
-            allLink.textContent = "Скрыть все рубрики";
-            allLink.classList.add("open");
-        } else {
-            allLink.textContent = "Показать все рубрики";
-            allLink.classList.remove("open");
-        }
+        updateListItems(true); // Показываем все элементы
     });
+
+    // Клик по "Скрыть все рубрики"
+    hideLink.addEventListener("click", function () {
+        hideLink.classList.remove("open");
+        allLink.classList.remove("close");
+
+        updateListItems(false); // Скрываем лишние элементы
+    });
+
+    // Слушаем изменение ширины экрана
+    window.addEventListener("resize", () => {
+        updateListItems(false); // Возвращаем список к изначальному состоянию
+    });
+
+    // Изначальное состояние
+    updateListItems(false);
 });
 
 /*- select -*/
 const selects = document.querySelectorAll('.select');
+const inputs = document.querySelectorAll('.select-hidden-form input'); // Получаем все input
 
-// Функция для закрытия всех open/ show классов
+// Функция для закрытия всех open/show классов
 function closeAllSelects(exceptSelect) {
     selects.forEach(select => {
         if (select !== exceptSelect) {
@@ -335,6 +340,19 @@ function closeAllSelects(exceptSelect) {
             select.classList.remove('open'); // Удаляем класс open у select
             selectText.classList.remove('open');
             selectDropdown.classList.remove('show');
+        }
+    });
+}
+
+// Функция для переноса данных из select__text в input
+function syncSelectWithInput() {
+    selects.forEach((select, index) => {
+        const input = inputs[index]; // Соответствующий input
+        const selectText = select.querySelector('.select__text');
+
+        // Перенос текста в input
+        if (input && selectText) {
+            input.value = selectText.textContent;
         }
     });
 }
@@ -377,6 +395,9 @@ selects.forEach(select => {
             // Обновляем текст в .select__text
             selectText.textContent = item.textContent;
 
+            // Перенос данных в input
+            syncSelectWithInput();
+
             // Закрываем выпадающее меню
             select.classList.remove('open'); // Удаляем класс open у select
             selectText.classList.remove('open');
@@ -393,6 +414,9 @@ selects.forEach(select => {
         }
     });
 });
+
+// Инициализируем начальные значения input
+syncSelectWithInput();
 
 /*- phone-panel -*/
 document.addEventListener("DOMContentLoaded", function() {
@@ -435,50 +459,48 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /*- info-widget -*/
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const widget = document.querySelector(".info-widget");
-    
-    // Проверяем, существует ли блок .info-widget
-    if (!widget) {
-        return; // Прекращаем выполнение, если его нет
-    }
+
+    // Проверяем наличие виджета
+    if (!widget) return;
 
     const paragraphs = widget.querySelectorAll("p");
-    const toggleLink = widget.querySelector(".info-widget__all-link");
+    const allLink = widget.querySelector(".info-widget__all-link");
+    const hideLink = widget.querySelector(".info-widget__hide-link");
 
-    // Проверяем, существует ли toggleLink и хотя бы один параграф
-    if (!toggleLink || paragraphs.length === 0) {
-        return; // Прекращаем выполнение, если их нет
-    }
+    // Проверяем наличие элементов
+    if (!allLink || !hideLink || paragraphs.length === 0) return;
 
-    // Если параграфов один, скрываем ссылку
+    // Скрываем ссылку "Читать все", если параграфов <= 1
     if (paragraphs.length <= 1) {
-        toggleLink.classList.add("hidden");
-        return; // Прекращаем выполнение, так как дальнейшие действия не нужны
+        allLink.classList.add("hidden");
+        return;
     }
 
-    // По умолчанию отображаем только первый параграф, остальные скрываем
+    // Изначально отображаем только первый параграф
     paragraphs.forEach((p, index) => {
-        if (index > 0) {
-            p.classList.add("hidden");
-        }
+        if (index > 0) p.classList.add("hidden");
     });
 
-    // Переключаем текст и видимость параграфов при клике на ссылку
-    toggleLink.addEventListener("click", function() {
-        const isHidden = paragraphs[1].classList.contains("hidden");
+    // Клик по "Читать все"
+    allLink.addEventListener("click", function () {
+        allLink.classList.add("close");
+        hideLink.classList.add("open");
 
-        if (isHidden) {
-            paragraphs.forEach(p => p.classList.remove("hidden"));
-            toggleLink.textContent = "Скрыть всё";
-        } else {
-            paragraphs.forEach((p, index) => {
-                if (index > 0) {
-                    p.classList.add("hidden");
-                }
-            });
-            toggleLink.textContent = "Читать все";
-        }
+        // Показываем все параграфы
+        paragraphs.forEach((p) => p.classList.remove("hidden"));
+    });
+
+    // Клик по "Скрыть всё"
+    hideLink.addEventListener("click", function () {
+        hideLink.classList.remove("open");
+        allLink.classList.remove("close");
+
+        // Скрываем все параграфы, кроме первого
+        paragraphs.forEach((p, index) => {
+            if (index > 0) p.classList.add("hidden");
+        });
     });
 });
 
@@ -536,116 +558,139 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /*- publications -*/
 document.addEventListener("DOMContentLoaded", function () {
-    const publications = document.getElementById("news-list");
-    if (!publications) return; // Если блок с id "publications" не найден, выходим из функции
+    const blocks = [
+        document.getElementById("news-list"),
+    ];
 
-    const items = publications.querySelectorAll(".news-list__item");
-    const toggleLink = publications.querySelector(".news-list__all-link");
-    const hiddenClass = "hidden";
     const itemsToShow = 5;
+    const hiddenClass = "hidden";
 
-    // Функция для обновления текста ссылки и видимости toggleLink
-    function updateLinkText() {
-        const hiddenItemsCount = publications.querySelectorAll(`.news-list__item.${hiddenClass}`).length;
-        toggleLink.textContent = hiddenItemsCount > 0
-            ? `Показать еще ${hiddenItemsCount}`
-            : `Скрыть ${items.length - itemsToShow}`;
+    blocks.forEach((block) => {
+        if (!block) return;
 
-        // Проверяем, должно ли toggleLink быть скрытым или видимым
-        const visibleItemsCount = items.length - hiddenItemsCount;
-        if (items.length > itemsToShow) {
-            toggleLink.classList.remove(hiddenClass); // Показываем ссылку, если есть больше itemsToShow элементов
-        } else if (visibleItemsCount <= itemsToShow) {
-            toggleLink.classList.add(hiddenClass); // Скрываем ссылку, если видимых элементов <= itemsToShow
-        }
-    }
+        const items = block.querySelectorAll(".news-list__item");
+        const allLink = block.querySelector(".news-list__all-link");
+        const hideLink = block.querySelector(".news-list__hide-link");
 
-    // Изначально скрываем все элементы кроме первых itemsToShow
-    items.forEach((item, index) => {
-        if (index >= itemsToShow) {
-            item.classList.add(hiddenClass);
-        }
-    });
+        if (!allLink || !hideLink || items.length === 0) return;
 
-    // Устанавливаем начальный текст ссылки и видимость toggleLink
-    updateLinkText();
+        // Функция для обновления текстов ссылок и их видимости
+        function updateLinkText() {
+            const hiddenItemsCount = block.querySelectorAll(
+                `.news-list__item.${hiddenClass}`
+            ).length;
 
-    // Переключение состояния по клику
-    toggleLink.addEventListener("click", function () {
-        const isHidden = items[itemsToShow].classList.contains(hiddenClass);
+            // Обновляем текст ссылок
+            allLink.textContent = `Показать еще ${hiddenItemsCount}`;
+            hideLink.textContent = `Скрыть еще ${items.length - itemsToShow}`;
 
-        if (isHidden) {
-            // Показываем все элементы
-            items.forEach(item => item.classList.remove(hiddenClass));
-        } else {
-            // Скрываем все элементы, начиная с itemsToShow
-            items.forEach((item, index) => {
-                if (index >= itemsToShow) {
-                    item.classList.add(hiddenClass);
-                }
-            });
+            // Управляем видимостью hideLink
+            if (hiddenItemsCount > 0) {
+                hideLink.classList.remove(hiddenClass); // Показываем hideLink
+            } else {
+                hideLink.classList.add(hiddenClass); // Скрываем hideLink
+            }
+
+            // Управляем видимостью allLink
+            if (items.length <= itemsToShow) {
+                allLink.classList.add(hiddenClass); // Скрываем allLink, если элементов меньше или равно itemsToShow
+            } else {
+                allLink.classList.remove(hiddenClass); // Показываем allLink
+            }
         }
 
-        // Обновляем текст ссылки и видимость toggleLink после изменения видимости элементов
+        // Изначально скрываем элементы кроме первых itemsToShow
+        items.forEach((item, index) => {
+            if (index >= itemsToShow) item.classList.add(hiddenClass);
+        });
+
+        // Инициализируем начальное состояние
         updateLinkText();
+
+        // Обработка клика на "Показать еще"
+        allLink.addEventListener("click", function () {
+            items.forEach((item) => item.classList.remove(hiddenClass));
+            allLink.classList.add("close");
+            hideLink.classList.add("open");
+            updateLinkText();
+        });
+
+        // Обработка клика на "Скрыть еще"
+        hideLink.addEventListener("click", function () {
+            items.forEach((item, index) => {
+                if (index >= itemsToShow) item.classList.add(hiddenClass);
+            });
+            allLink.classList.remove("close");
+            hideLink.classList.remove("open");
+            updateLinkText();
+        });
     });
 });
 
 /*- photo-gallery -*/
 document.addEventListener("DOMContentLoaded", function () {
     const publications = document.getElementById("gallery-list");
-    if (!publications) return; // Если блок с id "publications" не найден, выходим из функции
+    if (!publications) return; // Если блок с id "gallery-list" не найден, выходим из функции
 
     const items = publications.querySelectorAll(".photo-gallery__item");
-    const toggleLink = publications.querySelector(".photo-gallery__all-link");
-    const hiddenClass = "hidden";
-    const itemsToShow = 4;
+    const allLink = publications.querySelector(".photo-gallery__all-link");
+    const hideLink = publications.querySelector(".photo-gallery__hide-link");
 
-    // Функция для обновления текста ссылки и видимости toggleLink
+    const hiddenClass = "hidden";
+    const itemsToShow = 4; // Показываем только первые 4 элемента
+
+    if (!allLink || !hideLink || items.length === 0) return;
+
+    // Функция для обновления текста ссылок
     function updateLinkText() {
         const hiddenItemsCount = publications.querySelectorAll(`.photo-gallery__item.${hiddenClass}`).length;
-        toggleLink.textContent = hiddenItemsCount > 0
-            ? `Показать еще ${hiddenItemsCount}`
-            : `Скрыть ${items.length - itemsToShow}`;
-
-        // Проверяем, должно ли toggleLink быть скрытым или видимым
         const visibleItemsCount = items.length - hiddenItemsCount;
-        if (items.length > itemsToShow) {
-            toggleLink.classList.remove(hiddenClass); // Показываем ссылку, если есть больше itemsToShow элементов
-        } else if (visibleItemsCount <= itemsToShow) {
-            toggleLink.classList.add(hiddenClass); // Скрываем ссылку, если видимых элементов <= itemsToShow
+
+        // Обновляем текст ссылки "Показать еще X"
+        allLink.textContent = `Показать еще ${hiddenItemsCount}`;
+
+        // Обновляем текст ссылки "Скрыть еще X"
+        hideLink.textContent = `Скрыть еще ${visibleItemsCount - itemsToShow}`;
+
+        // Управляем видимостью allLink
+        if (hiddenItemsCount === 0) {
+            allLink.classList.add(hiddenClass); // Скрываем allLink, если больше нет скрытых элементов
+        } else {
+            allLink.classList.remove(hiddenClass); // Показываем allLink
         }
+
+        // hideLink всегда видим
+        hideLink.classList.remove(hiddenClass);
     }
 
-    // Изначально скрываем все элементы кроме первых itemsToShow
+    // Изначально скрываем все элементы, кроме первых itemsToShow
     items.forEach((item, index) => {
-        if (index >= itemsToShow) {
-            item.classList.add(hiddenClass);
-        }
+        if (index >= itemsToShow) item.classList.add(hiddenClass);
     });
 
-    // Устанавливаем начальный текст ссылки и видимость toggleLink
+    // Устанавливаем начальное состояние видимости ссылок
     updateLinkText();
 
-    // Переключение состояния по клику
-    toggleLink.addEventListener("click", function () {
-        const isHidden = items[itemsToShow].classList.contains(hiddenClass);
-
-        if (isHidden) {
-            // Показываем все элементы
-            items.forEach(item => item.classList.remove(hiddenClass));
-        } else {
-            // Скрываем все элементы, начиная с itemsToShow
-            items.forEach((item, index) => {
-                if (index >= itemsToShow) {
-                    item.classList.add(hiddenClass);
-                }
-            });
-        }
-
-        // Обновляем текст ссылки и видимость toggleLink после изменения видимости элементов
+    // Переключение состояния по клику на "Показать еще"
+    allLink.addEventListener("click", function () {
+        items.forEach((item) => item.classList.remove(hiddenClass)); // Показываем все элементы
+        allLink.classList.add("close");
+        hideLink.classList.add("open");
         updateLinkText();
     });
+
+    // Переключение состояния по клику на "Скрыть еще"
+    hideLink.addEventListener("click", function () {
+        items.forEach((item, index) => {
+            if (index >= itemsToShow) item.classList.add(hiddenClass); // Скрываем элементы, начиная с itemsToShow
+        });
+        allLink.classList.remove("close");
+        hideLink.classList.remove("open");
+        updateLinkText();
+    });
+
+    // Слушаем изменение ширины экрана для адаптивного поведения
+    window.addEventListener("resize", updateLinkText);
 });
 
 /*- info-block -*/
@@ -925,6 +970,83 @@ document.addEventListener('DOMContentLoaded', () => {
             button.disabled = false;
         }
     });
+});
+
+/*- password-input -*/
+const passwordInput = document.getElementById('password');
+const repeatPasswordInput = document.getElementById('repeat-password');
+
+// Проверяем, что элементы существуют на странице
+if (passwordInput && repeatPasswordInput) {
+    // Функция для проверки совпадения паролей
+    function validatePasswords() {
+        if (passwordInput.value !== repeatPasswordInput.value) {
+            // Если пароли не совпадают, меняем цвет бордера на красный
+            passwordInput.style.borderColor = 'red';
+            repeatPasswordInput.style.borderColor = 'red';
+        } else {
+            // Если совпадают, возвращаем цвет бордера к стандартному
+            passwordInput.style.borderColor = '';
+            repeatPasswordInput.style.borderColor = '';
+        }
+    }
+
+    // Добавляем слушатели событий на оба поля ввода
+    passwordInput.addEventListener('input', validatePasswords);
+    repeatPasswordInput.addEventListener('input', validatePasswords);
+}
+
+/*- phone -*/
+const phoneInput = document.getElementById('phone');
+
+phoneInput.addEventListener('input', () => {
+  let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+
+  // Убеждаемся, что префикс "+998" всегда есть
+  if (!value.startsWith('998')) {
+    value = '998' + value;
+  }
+
+  // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
+  value = value.slice(0, 12);
+
+  // Форматируем в маску +998 XX XXX-XX-XX
+  const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
+  phoneInput.value = formattedValue.trim();
+});
+
+phoneInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Backspace') {
+    let value = phoneInput.value;
+
+    // Если пытаются удалить префикс "+998", блокируем удаление
+    if (value === '+998 ' || value === '+998') {
+      e.preventDefault();
+      return;
+    }
+
+    // Позиция каретки
+    const cursorPos = phoneInput.selectionStart;
+
+    // Если удаляется символ форматирования (например, " " или "-"), перемещаем каретку влево
+    if (cursorPos > 0 && /[ -]/.test(value[cursorPos - 1])) {
+      e.preventDefault(); // Предотвращаем стандартное удаление
+      const newCursorPos = cursorPos - 1; // Перемещаем каретку влево
+      phoneInput.setSelectionRange(newCursorPos, newCursorPos); // Устанавливаем новую позицию
+    }
+  }
+});
+
+phoneInput.addEventListener('focus', () => {
+  if (!phoneInput.value || phoneInput.value === '+998') {
+    phoneInput.value = '+998 ';
+  }
+});
+
+phoneInput.addEventListener('blur', () => {
+  if (phoneInput.value === '+998 ') {
+    phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
+  }
 });
 
 /*- mobile-menu -*/
