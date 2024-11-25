@@ -234,6 +234,14 @@
                             </div>
                             <div class="info-panel__col">
                                 <div class="select-col">
+                                    <!-- скрытая форма "select-hidden-form", куда будут переноситься данные с кастомных "select", если она будет не нужна при привязке, то можно её будет просто удалить и связь между "input" и "select" осуществляется по порядку, условно 1й "input" будет равен 1му "select" и так по порядку -->
+                                    <div class="select-hidden-form">
+                                        <form>
+                                            <input type="text">
+                                            <input type="text">
+                                            <input type="text">
+                                        </form>
+                                    </div>
                                     <div class="select select_big-size">
                                         <span class="select__text">Популярные</span>
                                         <div class="select__dropdown">

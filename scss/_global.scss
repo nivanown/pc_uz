@@ -62,7 +62,7 @@ label {
   line-height: 1.5rem;
   cursor: text;
   span {
-    color: var(--nine--text-color);
+    color: var(--nine-text-color);
     }
   }
 
@@ -259,6 +259,15 @@ textarea::-webkit-input-placeholder {
       color: var(--six-text-color);
       box-shadow: 0 0 0 0.0625rem var(--tertiary-border-color) inset;
       background: inherit;
+      }
+    }
+  &_color-red-transparent {
+    color: var(--nine-text-color);
+    background: var(--secondary-background-color);
+    box-shadow: 0 0 0 0.0625rem var(--eight-border-color) inset;
+    &:hover {
+      color: var(--fifth-text-color);
+      background: var(--thirteen-background-color);
       }
     }
   &_color-dark-blue {
