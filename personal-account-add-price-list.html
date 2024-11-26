@@ -212,7 +212,13 @@
                                     <a href="#">Главная</a>
                                 </li>
                                 <li>
-                                    <span>Профиль</span>
+                                    <a href="#">Профиль</a>
+                                </li>
+                                <li>
+                                    <a href="#">Прайс-листы</a>
+                                </li>
+                                <li>
+                                    <span>Добавить прайс</span>
                                 </li>
                             </ul>
                         </nav>
@@ -220,7 +226,7 @@
                             <div class="account-widget">
                                 <nav class="account-widget__nav">
                                     <ul>
-                                        <li class="active">
+                                        <li>
                                             <a href="#">Профиль</a>
                                         </li>
                                         <li>
@@ -232,7 +238,7 @@
                                         <li>
                                             <a href="#">Услуги</a>
                                         </li>
-                                        <li>
+                                        <li class="active">
                                             <a href="#">Прайс-листы</a>
                                         </li>
                                     </ul>
@@ -240,24 +246,31 @@
                                 <a href="#" class="btn btn_small-size btn_color-red-transparent">Выйти из профиля</a>
                             </div>
                             <div class="personal-account__content">
-                                <h1 class="title">Профиль</h1>
-                                <ul class="user-data">
-                                    <li>
-                                        <dl>
-                                            <dt>Имя</dt>
-                                            <dd>Константин</dd>
-                                        </dl>
-                                    </li>
-                                    <li>
-                                        <dl>
-                                            <dt>Эл. почта</dt>
-                                            <dd>
-                                                <a href="mailto:info@pc.uz">info@pc.uz</a>
-                                            </dd>
-                                        </dl>
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn_small-size btn_color-transparent">Редактировать профиль</a>
+                                <h1 class="title">Добавить прайс-лист</h1>
+                                <div class="form">
+                                    <form>
+                                        <div class="form__in">
+                                            <div class="form__col">
+                                                <div class="form__item">
+                                                    <label>Компания <span class="gray-color">*</span></label>
+                                                    <span class="form__text">AVTECH CUSTOMER SERVICE</span>
+                                                </div>
+                                                <div class="form__item">
+                                                    <label for="file">Добавить файл (.docx, .xlsx)</label>
+                                                    <div class="input-file">
+                                                        <span class="input-file__text">Выбрать файл</span>
+                                                        <span class="input-file__error-text">Недопустимый формат файла. Загрузите .docx или .xlsx</span>
+                                                        <input id="file" type="file">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form__btns-col">
+                                                <button class="btn btn_small-size" type="submit">Сохранить</button>
+                                                <a href="#" class="btn btn_small-size btn_color-gray-transparent">Выйти</a>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </section>
