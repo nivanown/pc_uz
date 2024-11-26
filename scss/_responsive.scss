@@ -130,6 +130,9 @@ html {
 	&_mobile-indent-bottom-none {
 		margin: 0;
 		}
+	&_full-size {
+		margin: 0;
+		}
 	}
 
 /* news-wrap */
@@ -994,6 +997,23 @@ html {
 		.form__col {
 			grid-template-columns: repeat(1, 1fr);
 			}
+		}
+	&__btns-col {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 1.25rem 0;
+		width: 100%;
+		}
+	}
+
+/* table */
+.table {
+	margin: 0 -1.25rem 1rem;
+	padding: 0 1.25rem;
+	overflow-x: scroll;
+	&__in {
+		width: 57.8125rem;
 		}
 	}
 
