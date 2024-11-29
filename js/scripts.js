@@ -1346,6 +1346,33 @@ document.addEventListener('DOMContentLoaded', () => {
             phoneInput.value = formattedValue.trim();
         });
 
+        phoneInput.addEventListener('keydown', (event) => {
+            // Если нажата клавиша Backspace
+            if (event.key === 'Backspace') {
+                const cursorPosition = phoneInput.selectionStart;
+                const value = phoneInput.value;
+
+                // Убедимся, что пользователь не может удалить "+998 "
+                if (cursorPosition <= 5) {
+                    event.preventDefault();
+                    return;
+                }
+
+                // Если курсор перед символами форматирования (пробел, дефис)
+                const prevChar = value[cursorPosition - 1];
+                if (/\s|-/.test(prevChar)) {
+                    event.preventDefault();
+
+                    // Удаляем символ форматирования и перемещаем курсор
+                    const newValue = value.slice(0, cursorPosition - 1) + value.slice(cursorPosition);
+                    phoneInput.value = newValue;
+
+                    // Устанавливаем новый курсор
+                    phoneInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
+                }
+            }
+        });
+
         phoneInput.addEventListener('focus', () => {
             if (!phoneInput.value || phoneInput.value === '+998') {
                 phoneInput.value = '+998 ';
