@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/style.css" media="all">
     <link rel="stylesheet" href="css/swiper-bundle.min.css" media="all">
     <link rel="stylesheet" href="css/simple-scrollbar.css" media="all">
+    <link rel="stylesheet" href="css/quill.min.css" media="all">
 
     <link href="favicon.ico" rel="shortcut icon">
 
@@ -257,10 +258,10 @@
                                                 </div>
                                                 <div class="form__item">
                                                     <label for="file">Добавить файл (.docx, .xlsx)</label>
-                                                    <div class="input-file">
+                                                    <div id="doc-file" class="input-file">
                                                         <span class="input-file__text">Выбрать файл</span>
                                                         <span class="input-file__error-text">Недопустимый формат файла. Загрузите .docx или .xlsx</span>
-                                                        <input id="file" type="file">
+                                                        <input id="file" class="input-file__field" type="file">
                                                     </div>
                                                 </div>
                                             </div>
@@ -442,6 +443,7 @@
     <script src="js/swiper-bundle.min.js"></script>
     <script src="js/dynamic-blocks.js"></script>
     <script src="js/simple-scrollbar.min.js"></script>
+    <script src="js/quill.min.js"></script>
 
     <!-- Scripts -->
     <script src="js/scripts.js"></script>

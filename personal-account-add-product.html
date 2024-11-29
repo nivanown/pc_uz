@@ -216,7 +216,10 @@
                                     <a href="#">Профиль</a>
                                 </li>
                                 <li>
-                                    <span>Продукция</span>
+                                    <a href="#">Продукция</a>
+                                </li>
+                                <li>
+                                    <span>Добавить товар</span>
                                 </li>
                             </ul>
                         </nav>
@@ -227,10 +230,10 @@
                                         <li>
                                             <a href="#">Профиль</a>
                                         </li>
-                                        <li>
+                                        <li class="active">
                                             <a href="#">Компании</a>
                                         </li>
-                                        <li class="active">
+                                        <li>
                                             <a href="#">Продукция</a>
                                         </li>
                                         <li>
@@ -244,88 +247,108 @@
                                 <a href="#" class="btn btn_small-size btn_color-red-transparent">Выйти из профиля</a>
                             </div>
                             <div class="personal-account__content">
-                                <h1 class="title">Продукция</h1>
-                                <p class="personal-account__text">Чтобы добавить товары, выберите компанию из списка</p>
-                                <div class="table">
-                                    <div class="table__in">
-                                        <div class="table__title-col">
-                                            <span class="table__head-title">API</span>
-                                            <span class="table__head-title">Название</span>
-                                            <span class="table__head-title">Статус</span>
-                                            <span class="table__head-title">Действия</span>
+                                <h1 class="title">Добавить товар</h1>
+                                <div class="form">
+                                    <form>
+                                        <div class="form__in">
+                                            <div class="form__col">
+                                                <div class="form__item">
+                                                    <label for="company">Компания <span>*</span></label>
+                                                    <input id="company" type="text" value="AVTECH CUSTOMER SERVICE">
+                                                </div>
+                                                <div class="form__item">
+                                                    <label for="price">Цена (сум) <span>*</span></label>
+                                                    <input id="price" type="text">
+                                                </div>
+                                                <div class="form__item">
+                                                    <label for="category">Наименование товара <span>*</span></label>
+                                                    <div class="gl-select">
+                                                        <div class="gl-select__field">
+                                                            <input id="category" type="text" value="Выберите из списка" readonly>
+                                                        </div>
+                                                        <div class="gl-select__dropdown">
+                                                            <div class="gl-select__search">
+                                                                <input type="text" placeholder="Или введите название здесь">
+                                                            </div>
+                                                            <div class="gl-select__scroll">
+                                                                <ul>
+                                                                    <li>
+                                                                        <span>3D принтер XYZprinting da Vinchi 1.0 Pro</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Bluetiith-гарнитура Xiaomi</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>ESET Cyber Security Pro</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>GPON 3D принтер XYZprinting da Nano</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>IT-камера Bluetiith-гарнитура Xiaomi</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>IP-телефон ESET Cyber Security Pro</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>USB GPON 3D принтер XYZprinting da Nano</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>WI-Fi адаптер GPON 3D принтер XYZprinting da Nano</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Принтер XYZprinting da Vinchi 1.0 Pro</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Игровая клавиатура Logitech G Pro</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Монитор Samsung Odyssey G7</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Ноутбук ASUS ZenBook 14</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Беспроводная мышь Razer DeathAdder V2</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Гарнитура HyperX Cloud II</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Твердотельный накопитель Kingston NV2 1TB</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Внешний жесткий диск Seagate Backup Plus</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Веб-камера Logitech StreamCam</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Портативная колонка JBL Charge 5</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Умные часы Apple Watch Series 9</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <span>Графический планшет Wacom Intuos Pro</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <span class="form__info-text">Вашего товара нет в списке? <a href="#">Предложите новый товар</a></span>
+                                                </div>
+                                                <div class="form__item">
+                                                    <label for="link">Ссылка на сайт компании с товаром</label>
+                                                    <input id="link" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="form__btns-col">
+                                                <button class="btn btn_small-size" type="submit" disabled>Сохранить</button>
+                                                <a href="#" class="btn btn_small-size btn_color-gray-transparent">Выйти</a>
+                                            </div>
                                         </div>
-                                        <div class="table__content">
-                                            <div class="table__content-col">
-                                                <div class="table__content-item">
-                                                    <span class="table__api">253 890</span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <span class="table__title">
-                                                        <a href="#"><strong>AVTECH CUSTOMER SERVICE</strong> ООО</a>
-                                                    </span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <div class="switch">
-                                                        <input type="checkbox" name="switch">
-                                                        <div class="switch__dec"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="table__content-item">
-                                                   <div class="actions-panel">
-                                                       <a href="#" class="actions-panel__views">Просмотры</a>
-                                                       <a href="#" class="actions-panel__edit">Редактировать</a>
-                                                       <a href="#" class="actions-panel__delete">Удалить</a>
-                                                   </div> 
-                                                </div>
-                                            </div>
-                                            <div class="table__content-col">
-                                                <div class="table__content-item">
-                                                    <span class="table__api">253 885</span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <span class="table__title">
-                                                        <a href="#"><strong>BRANDSTORE UZ</strong> ООО</a>
-                                                    </span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <div class="switch">
-                                                        <input type="checkbox" name="switch">
-                                                        <div class="switch__dec"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="table__content-item">
-                                                   <div class="actions-panel">
-                                                       <a href="#" class="actions-panel__views">Просмотры</a>
-                                                       <a href="#" class="actions-panel__edit">Редактировать</a>
-                                                       <a href="#" class="actions-panel__delete">Удалить</a>
-                                                   </div> 
-                                                </div>
-                                            </div>
-                                            <div class="table__content-col">
-                                                <div class="table__content-item">
-                                                    <span class="table__api">246 653</span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <span class="table__title">
-                                                        <a href="#"><strong>AVTECH</strong> Фирменный магазин</a>
-                                                    </span>
-                                                </div>
-                                                <div class="table__content-item">
-                                                    <div class="switch">
-                                                        <input type="checkbox" name="switch">
-                                                        <div class="switch__dec"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="table__content-item">
-                                                   <div class="actions-panel">
-                                                       <a href="#" class="actions-panel__views">Просмотры</a>
-                                                       <a href="#" class="actions-panel__edit">Редактировать</a>
-                                                       <a href="#" class="actions-panel__delete">Удалить</a>
-                                                   </div> 
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
