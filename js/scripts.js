@@ -731,11 +731,16 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 /*- scroll -*/
-var elements = document.querySelectorAll('.gl-modal__scroll');
+const classes = [
+    '.gl-modal__scroll',
+    '.gl-select__scroll',
+    '.gl-select-checkbox__scroll'
+];
+
+const elements = document.querySelectorAll(classes.join(','));
+
 if (elements.length > 0) {
-    elements.forEach(function(el) {
-        SimpleScrollbar.initEl(el);
-    });
+    elements.forEach(el => SimpleScrollbar.initEl(el));
 }
 
 /*- gl-modal -*/
@@ -996,94 +1001,435 @@ if (passwordInput && repeatPasswordInput) {
     repeatPasswordInput.addEventListener('input', validatePasswords);
 }
 
-/*- phone -*/
-const phoneInput = document.getElementById('phone');
-
-if (phoneInput) {
-  phoneInput.addEventListener('input', () => {
-    let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
-
-    // Убеждаемся, что префикс "+998" всегда есть
-    if (!value.startsWith('998')) {
-      value = '998' + value;
-    }
-
-    // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
-    value = value.slice(0, 12);
-
-    // Форматируем в маску +998 XX XXX-XX-XX
-    const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
-    phoneInput.value = formattedValue.trim();
-  });
-
-  phoneInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Backspace') {
-      let value = phoneInput.value;
-
-      // Если пытаются удалить префикс "+998", блокируем удаление
-      if (value === '+998 ' || value === '+998') {
-        e.preventDefault();
-        return;
-      }
-
-      // Позиция каретки
-      const cursorPos = phoneInput.selectionStart;
-
-      // Если удаляется символ форматирования (например, " " или "-"), перемещаем каретку влево
-      if (cursorPos > 0 && /[ -]/.test(value[cursorPos - 1])) {
-        e.preventDefault(); // Предотвращаем стандартное удаление
-        const newCursorPos = cursorPos - 1; // Перемещаем каретку влево
-        phoneInput.setSelectionRange(newCursorPos, newCursorPos); // Устанавливаем новую позицию
-      }
-    }
-  });
-
-  phoneInput.addEventListener('focus', () => {
-    if (!phoneInput.value || phoneInput.value === '+998') {
-      phoneInput.value = '+998 ';
-    }
-  });
-
-  phoneInput.addEventListener('blur', () => {
-    if (phoneInput.value === '+998 ') {
-      phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
-    }
-  });
-}
-
 /*- input-file -*/
 document.addEventListener('DOMContentLoaded', () => {
-    const fileInput = document.getElementById('file');
-    const fileText = document.querySelector('.input-file__text');
-    const errorText = document.querySelector('.input-file__error-text');
+    const docFileContainer = document.getElementById('doc-file'); // Контейнер
 
-    if (fileInput && fileText && errorText) {
-        const allowedExtensions = ['docx', 'xlsx'];
+    if (docFileContainer) {
+        const fileInput = docFileContainer.querySelector('.input-file__field');
+        const fileText = docFileContainer.querySelector('.input-file__text');
+        const errorText = docFileContainer.querySelector('.input-file__error-text');
 
-        fileInput.addEventListener('change', () => {
-            if (fileInput.files.length > 0) {
-                const fileName = fileInput.files[0].name;
-                const fileExtension = fileName.split('.').pop().toLowerCase();
+        if (fileInput && fileText && errorText) {
+            const allowedExtensions = ['docx', 'xlsx'];
 
-                if (allowedExtensions.includes(fileExtension)) {
-                    // Показываем имя файла, скрываем ошибку
-                    fileText.textContent = fileName;
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                    if (allowedExtensions.includes(fileExtension)) {
+                        // Показываем имя файла, скрываем ошибку
+                        fileText.textContent = fileName;
+                        fileText.classList.remove('hidden');
+                        errorText.classList.remove('show');
+                    } else {
+                        // Показываем ошибку, скрываем текст выбора файла
+                        fileText.classList.add('hidden');
+                        errorText.classList.add('show');
+                    }
+                } else {
+                    // Сбрасываем к стандартному виду
+                    fileText.textContent = 'Выбрать файл';
                     fileText.classList.remove('hidden');
                     errorText.classList.remove('show');
-                } else {
-                    // Показываем ошибку, скрываем текст выбора файла
-                    fileText.classList.add('hidden');
-                    errorText.classList.add('show');
                 }
+            });
+        }
+    }
+});
+
+/*- image-file -*/
+document.addEventListener('DOMContentLoaded', () => {
+    const imageFileContainer = document.getElementById('image-file'); // Контейнер
+
+    if (imageFileContainer) {
+        const fileInput = imageFileContainer.querySelector('.input-file__field');
+        const fileText = imageFileContainer.querySelector('.input-file__text');
+        const errorText = imageFileContainer.querySelector('.input-file__error-text');
+
+        if (fileInput && fileText && errorText) {
+            const allowedExtensions = ['jpg', 'png'];
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files.length > 0) {
+                    const fileName = fileInput.files[0].name;
+                    const fileExtension = fileName.split('.').pop().toLowerCase();
+
+                    if (allowedExtensions.includes(fileExtension)) {
+                        // Показываем имя файла, скрываем ошибку
+                        fileText.textContent = fileName;
+                        fileText.classList.remove('hidden');
+                        errorText.classList.remove('show');
+                    } else {
+                        // Показываем ошибку, скрываем текст выбора файла
+                        fileText.classList.add('hidden');
+                        errorText.classList.add('show');
+                    }
+                } else {
+                    // Сбрасываем к стандартному виду
+                    fileText.textContent = 'Выбрать файл';
+                    fileText.classList.remove('hidden');
+                    errorText.classList.remove('show');
+                }
+            });
+        }
+    }
+});
+
+/*- gl-select -*/
+document.addEventListener("DOMContentLoaded", () => {
+    // Находим все элементы с классом .gl-select
+    const glSelects = document.querySelectorAll(".gl-select");
+
+    if (glSelects.length === 0) return; // Если блоков нет, ничего не делаем
+
+    glSelects.forEach((glSelect) => {
+        const selectField = glSelect.querySelector(".gl-select__field");
+        const dropdown = glSelect.querySelector(".gl-select__dropdown");
+        const input = selectField.querySelector("input[type='text']");
+        const searchContainer = dropdown.querySelector(".gl-select__search");
+        const searchInput = searchContainer ? searchContainer.querySelector("input[type='text']") : null;
+        const scrollContainer = dropdown.querySelector(".gl-select__scroll");
+        const items = scrollContainer.querySelectorAll("li");
+        const glSelectBlock = document.querySelector('.gl-select-checkbox__field'); // Другой интерактивный блок на странице
+
+        if (!selectField || !dropdown || !input || !scrollContainer) return; // Если структуры нет, пропускаем
+
+        // Функция для открытия/закрытия dropdown
+        const toggleDropdown = (event) => {
+            event.stopPropagation(); // Предотвращаем всплытие события
+            glSelects.forEach((item) => {
+                if (item !== glSelect) {
+                    item.classList.remove("open");
+                    item.querySelector(".gl-select__dropdown").classList.remove("show");
+                }
+            });
+
+            glSelect.classList.toggle("open");
+            dropdown.classList.toggle("show");
+        };
+
+        // Закрытие при клике вне
+        const closeDropdown = () => {
+            glSelect.classList.remove("open");
+            dropdown.classList.remove("show");
+        };
+
+        // Обработчик клика на поле
+        selectField.addEventListener("click", toggleDropdown);
+
+        // Закрытие при клике на свободное пространство
+        document.addEventListener("click", (event) => {
+            if (!glSelect.contains(event.target)) {
+                closeDropdown();
+            }
+        });
+
+        // Закрываем выпадающий список, если был клик на блок с классом gl-select
+        if (glSelectBlock) {
+            glSelectBlock.addEventListener('click', () => {
+                closeDropdown();
+            });
+        }
+
+        // Сброс списка к исходному состоянию
+        const resetList = () => {
+            if (searchInput) searchInput.value = ""; // Очищаем поле поиска, если оно есть
+            items.forEach((item) => {
+                item.style.display = ""; // Показываем все элементы
+            });
+        };
+
+        // Выбор текста из списка
+        scrollContainer.addEventListener("click", (event) => {
+            const li = event.target.closest("li");
+            const span = li ? li.querySelector("span") : null;
+
+            if (li && span) {
+                // Удаляем класс active у всех элементов
+                items.forEach((item) => item.classList.remove("active"));
+
+                // Добавляем класс active к выбранному элементу
+                li.classList.add("active");
+
+                // Переносим текст в input
+                input.value = span.textContent;
+                input.setAttribute("readonly", true); // Делаем input readonly
+                resetList(); // Сбрасываем фильтрацию
+                closeDropdown(); // Закрываем выпадающий список
+            }
+        });
+
+        // Фильтрация списка, если блок поиска присутствует
+        if (searchInput) {
+            searchInput.addEventListener("input", () => {
+                const filter = searchInput.value.toLowerCase(); // Приводим текст к нижнему регистру
+                items.forEach((item) => {
+                    const span = item.querySelector("span");
+                    if (span) {
+                        const text = span.textContent.toLowerCase();
+                        if (text.includes(filter)) {
+                            item.style.display = ""; // Показываем, если подходит
+                        } else {
+                            item.style.display = "none"; // Скрываем, если не подходит
+                        }
+                    }
+                });
+            });
+        }
+    });
+});
+
+/*- gl-select-checkbox -*/
+document.addEventListener('DOMContentLoaded', () => {
+    const selectField = document.querySelector('.gl-select-checkbox__field'); // Поле ввода
+    const selectCheckbox = document.querySelector('.gl-select-checkbox'); // Главный контейнер
+    const dropdown = document.querySelector('.gl-select-checkbox__dropdown'); // Выпадающий список
+    const searchInput = document.querySelector('.gl-select-checkbox__search input'); // Поле поиска
+    const checkboxItems = document.querySelectorAll('.gl-select-checkbox__scroll li'); // Элементы списка
+    const checkboxes = document.querySelectorAll('.gl-select-checkbox__scroll input[type="checkbox"]'); // Все чекбоксы
+    const selectedValuesInput = document.querySelector('.gl-select-checkbox__field input'); // Поле для выбранных значений
+    const applyButton = document.querySelector('.gl-select-checkbox__btns-panel .btn:not(.btn_color-gray-transparent)'); // Кнопка "Применить"
+    const resetButton = document.querySelector('.gl-select-checkbox__btns-panel .btn_color-gray-transparent'); // Кнопка "Сбросить"
+    const glSelectBlock = document.querySelector('.gl-select__field'); // Другой интерактивный блок на странице
+
+    if (!selectCheckbox) {
+        console.warn('Компонент .gl-select-checkbox не найден на странице.');
+        return; // Останавливаем выполнение кода, если элемента нет
+    }
+
+    // Функция для переключения видимости выпадающего списка
+    const toggleDropdown = (event) => {
+        event.stopPropagation();
+        selectCheckbox.classList.toggle('open');
+        dropdown.classList.toggle('show');
+    };
+
+    // Функция для сброса результатов поиска
+    const resetSearch = () => {
+        if (!searchInput || !checkboxItems) return;
+        searchInput.value = ''; // Очистка поля поиска
+        checkboxItems.forEach((item) => {
+            item.style.display = ''; // Отображаем все элементы
+        });
+    };
+
+    // Функция для закрытия выпадающего списка
+    const closeDropdown = () => {
+        selectCheckbox.classList.remove('open');
+        dropdown.classList.remove('show');
+        resetSearch(); // Сбрасываем результаты поиска при закрытии
+    };
+
+    // Обрабатываем клик на поле ввода
+    if (selectField) {
+        selectField.addEventListener('click', toggleDropdown);
+    }
+
+    // Закрываем выпадающий список при клике за его пределами
+    document.addEventListener('click', (event) => {
+        if (!selectCheckbox.contains(event.target)) {
+            closeDropdown();
+        }
+    });
+
+    // Закрываем выпадающий список, если был клик на блок с классом gl-select
+    if (glSelectBlock) {
+        glSelectBlock.addEventListener('click', () => {
+            closeDropdown();
+        });
+    }
+
+    // Обрабатываем клики на checkbox внутри списка
+    if (checkboxItems) {
+        checkboxItems.forEach((item) => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+
+            if (checkbox) {
+                checkbox.addEventListener('click', (event) => {
+                    event.stopPropagation();
+
+                    // Переключаем класс active только у текущего элемента li
+                    if (item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    } else {
+                        item.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+
+    // Фильтрация элементов списка при вводе текста в поле поиска
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const searchValue = searchInput.value.toLowerCase();
+
+            checkboxItems.forEach((item) => {
+                const label = item.querySelector('label').textContent.toLowerCase();
+                if (label.includes(searchValue)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // Функция для обновления значения в поле ввода
+    const updateSelectedValues = () => {
+        if (!checkboxes || !selectedValuesInput) return;
+
+        const selectedValues = [];
+        checkboxes.forEach((checkbox) => {
+            if (checkbox.checked) {
+                const label = checkbox.nextElementSibling.textContent.trim();
+                selectedValues.push(label);
+            }
+        });
+
+        selectedValuesInput.value = selectedValues.length
+            ? selectedValues.join(', ')
+            : 'Выберите из списка';
+    };
+
+    // Обрабатываем кнопку "Применить"
+    if (applyButton) {
+        applyButton.addEventListener('click', () => {
+            updateSelectedValues();
+            closeDropdown();
+        });
+    }
+
+    // Обрабатываем кнопку "Сбросить"
+    if (resetButton) {
+        resetButton.addEventListener('click', () => {
+            if (!checkboxes || !checkboxItems) return;
+
+            checkboxes.forEach((checkbox) => (checkbox.checked = false));
+            checkboxItems.forEach((item) => item.classList.remove('active'));
+            if (selectedValuesInput) {
+                selectedValuesInput.value = 'Выберите из списка';
+            }
+            resetSearch();
+        });
+    }
+});
+
+/*- phone-fields -*/
+document.addEventListener('DOMContentLoaded', () => {
+    const phoneFieldsList = document.querySelector('.phone-fields-list');
+    const phoneFieldsInList = phoneFieldsList?.querySelectorAll('.phone-fields-list__item');
+    const btn = phoneFieldsList?.querySelector('.btn');
+
+    let currentIndex = 0; // Индекс текущего активного поля в списке
+
+    // Функция проверки полного номера телефона
+    const isPhoneValid = (phone) => phone.length === 17; // +998 XX XXX-XX-XX (17 символов)
+
+    // Универсальная функция для маски ввода телефона
+    const formatPhoneInput = (phoneInput) => {
+        phoneInput.addEventListener('input', () => {
+            let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+
+            // Убеждаемся, что префикс "+998" всегда есть
+            if (!value.startsWith('998')) {
+                value = '998' + value;
+            }
+
+            // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
+            value = value.slice(0, 12);
+
+            // Форматируем в маску +998 XX XXX-XX-XX
+            const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
+            phoneInput.value = formattedValue.trim();
+        });
+
+        phoneInput.addEventListener('focus', () => {
+            if (!phoneInput.value || phoneInput.value === '+998') {
+                phoneInput.value = '+998 ';
+            }
+        });
+
+        phoneInput.addEventListener('blur', () => {
+            if (phoneInput.value === '+998 ') {
+                phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
+            }
+        });
+    };
+
+    // Маска для всех элементов с классом phone-field
+    const phoneInputs = document.querySelectorAll('.phone-field');
+    phoneInputs.forEach((phoneInput) => {
+        formatPhoneInput(phoneInput);
+    });
+
+    // Логика работы с phone-fields-list
+    if (phoneFieldsList) {
+        const updateButtonState = (input) => {
+            if (isPhoneValid(input.value)) {
+                btn.classList.remove('btn_no-active');
             } else {
-                // Сбрасываем к стандартному виду
-                fileText.textContent = 'Выбрать файл';
-                fileText.classList.remove('hidden');
-                errorText.classList.remove('show');
+                btn.classList.add('btn_no-active');
+            }
+        };
+
+        phoneFieldsInList.forEach((item, index) => {
+            const input = item.querySelector('.phone-field');
+            input.addEventListener('input', () => {
+                if (index === currentIndex) {
+                    updateButtonState(input);
+                }
+            });
+        });
+
+        btn.addEventListener('click', () => {
+            if (btn.classList.contains('btn_no-active')) return;
+
+            if (currentIndex < phoneFieldsInList.length - 1) {
+                const currentItem = phoneFieldsInList[currentIndex];
+                const nextItem = phoneFieldsInList[currentIndex + 1];
+
+                // Удаляем класс hidden у следующего элемента
+                nextItem.classList.remove('hidden');
+                currentIndex++;
+
+                // Деактивируем кнопку до ввода следующего номера
+                btn.classList.add('btn_no-active');
+            }
+
+            // Если последний элемент раскрыт, скрываем кнопку
+            if (currentIndex === phoneFieldsInList.length - 1) {
+                btn.classList.add('btn_hidden');
             }
         });
     }
 });
+
+/*- editor1 -*/
+var editor1 = document.querySelector('#editor1');
+var toolbar1 = document.querySelector('#toolbar1');
+if (editor1 && toolbar1) {
+    var quill1 = new Quill(editor1, {
+        theme: 'snow',
+        modules: {
+            toolbar: toolbar1
+        }
+    });
+}
+
+/*- editor2 -*/
+var editor2 = document.querySelector('#editor2');
+var toolbar2 = document.querySelector('#toolbar2');
+if (editor2 && toolbar2) {
+    var quill2 = new Quill(editor2, {
+        theme: 'snow',
+        modules: {
+            toolbar: toolbar2
+        }
+    });
+}
 
 /*- mobile-menu -*/
 const menuBtn = document.querySelector('.menu-btn');
