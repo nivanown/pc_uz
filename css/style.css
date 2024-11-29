@@ -288,7 +288,7 @@ input[type=tel]::-moz-placeholder,
 input[type=text]::-moz-placeholder,
 input[type=email]::-moz-placeholder,
 input[type=password]::-moz-placeholder {
-  color: var(--quaternary-text-color);
+  color: var(--eight-text-color);
   opacity: 1;
   outline: none;
 }
@@ -297,7 +297,7 @@ input[type=tel]::-webkit-input-placeholder,
 input[type=text]::-webkit-input-placeholder,
 input[type=email]::-webkit-input-placeholder,
 input[type=password]::-webkit-input-placeholder {
-  color: var(--quaternary-text-color);
+  color: var(--eight-text-color);
   opacity: 1;
   outline: none;
 }
@@ -439,6 +439,20 @@ textarea::-webkit-input-placeholder {
   color: var(--fifth-text-color);
   background: var(--quaternary-btn-color);
   cursor: default;
+}
+.btn_hidden {
+  display: none;
+}
+.btn_no-active {
+  color: var(--six-text-color);
+  background: var(--secondary-background-color);
+  box-shadow: 0 0 0 0.0625rem var(--tertiary-border-color) inset;
+  cursor: default;
+}
+.btn_no-active:hover {
+  color: var(--six-text-color);
+  background: var(--secondary-background-color);
+  box-shadow: 0 0 0 0.0625rem var(--tertiary-border-color) inset;
 }
 .btn_color-transparent {
   color: var(--seven-text-color);
@@ -1066,6 +1080,217 @@ textarea::-webkit-input-placeholder {
   z-index: 3;
   cursor: pointer;
   opacity: 0;
+}
+
+/* gl-select */
+.gl-select {
+  position: relative;
+}
+.gl-select.open {
+  z-index: 30;
+}
+.gl-select.open .gl-select__field:after {
+  transform: rotate(-180deg);
+}
+.gl-select__field {
+  position: relative;
+}
+.gl-select__field:after {
+  position: absolute;
+  display: block;
+  margin: -0.25rem 0 0;
+  width: 0.625rem;
+  height: 0.5rem;
+  top: 50%;
+  right: 0;
+  background: url(../img/icons/select-arrow.svg) center no-repeat;
+  background-size: 100%;
+  content: "";
+  pointer-events: none;
+  transition: 0.5s transform;
+}
+.gl-select__field input[type=text] {
+  padding: 0 1.875rem 0 0;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gl-select__dropdown {
+  position: absolute;
+  width: 100%;
+  top: 2.8125rem;
+  left: 0;
+  border: 0.0625rem solid var(--ten-background-color);
+  background: var(--secondary-background-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s all;
+  overflow: hidden;
+}
+.gl-select__dropdown.show {
+  opacity: 1;
+  visibility: visible;
+}
+.gl-select__dropdown ul {
+  padding: 1rem 0 0;
+}
+.gl-select__dropdown li {
+  font-size: 1rem;
+  font-family: var(--secondary-font-family);
+  line-height: 1.375rem;
+}
+.gl-select__dropdown li.active span {
+  color: var(--quaternary-text-color);
+  background: var(--quaternary-btn-color);
+}
+.gl-select__dropdown span {
+  display: block;
+  padding: 0.625rem 1.25rem;
+  color: var(--tertiary-text-color);
+  cursor: pointer;
+  transition: 0.3s all;
+}
+.gl-select__dropdown span:hover {
+  color: var(--quaternary-text-color);
+  background: var(--quaternary-btn-color);
+}
+.gl-select__search {
+  padding: 0.25rem 1.25rem 0;
+}
+.gl-select__search input[type=text] {
+  padding: 0 1.875rem 0 0;
+  font-size: 0.9375rem;
+}
+.gl-select__scroll {
+  height: 30.625rem;
+}
+.gl-select .ss-scroll {
+  margin: 0 0 0 -0.0625rem;
+  width: 0.3125rem;
+  background: var(--eight-background-color);
+  border-radius: 0.625rem;
+  opacity: 1;
+}
+
+/* gl-select-checkbox */
+.gl-select-checkbox {
+  position: relative;
+}
+.gl-select-checkbox.open {
+  z-index: 30;
+}
+.gl-select-checkbox.open .gl-select-checkbox:after {
+  transform: rotate(-180deg);
+}
+.gl-select-checkbox__field {
+  position: relative;
+}
+.gl-select-checkbox__field:after {
+  position: absolute;
+  display: block;
+  margin: -0.25rem 0 0;
+  width: 0.625rem;
+  height: 0.5rem;
+  top: 50%;
+  right: 0;
+  background: url(../img/icons/select-arrow.svg) center no-repeat;
+  background-size: 100%;
+  content: "";
+  pointer-events: none;
+  transition: 0.5s transform;
+}
+.gl-select-checkbox__field input[type=text] {
+  padding: 0 1.875rem 0 0;
+  font-size: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gl-select-checkbox__dropdown {
+  position: absolute;
+  width: 100%;
+  top: 2.8125rem;
+  left: 0;
+  border: 0.0625rem solid var(--ten-background-color);
+  background: var(--secondary-background-color);
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s all;
+  overflow: hidden;
+}
+.gl-select-checkbox__dropdown.show {
+  opacity: 1;
+  visibility: visible;
+}
+.gl-select-checkbox__dropdown ul {
+  padding: 1rem 0;
+}
+.gl-select-checkbox__dropdown li {
+  padding: 0.75rem 1.375rem;
+  transition: 0.3s background;
+}
+.gl-select-checkbox__dropdown li:hover {
+  background: var(--quaternary-btn-color);
+}
+.gl-select-checkbox__dropdown li.active {
+  background: var(--quaternary-btn-color);
+}
+.gl-select-checkbox__dropdown li.active .checkbox label {
+  color: var(--quaternary-text-color);
+}
+.gl-select-checkbox__search {
+  padding: 0.25rem 1.25rem 0;
+}
+.gl-select-checkbox__search input[type=text] {
+  padding: 0 1.875rem 0 0;
+  font-size: 0.9375rem;
+}
+.gl-select-checkbox__scroll {
+  height: 31.25rem;
+}
+.gl-select-checkbox .ss-scroll {
+  margin: 0 0 0 -0.0625rem;
+  width: 0.3125rem;
+  background: var(--eight-background-color);
+  border-radius: 0.625rem;
+  opacity: 1;
+}
+.gl-select-checkbox .checkbox input {
+  margin: 0.0625rem 0 0;
+}
+.gl-select-checkbox .checkbox label {
+  color: var(--tertiary-text-color);
+  font-size: 1rem;
+  font-family: var(--secondary-font-family);
+  line-height: 1.375rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gl-select-checkbox__btns-panel {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0 1.25rem;
+  padding: 0.625rem;
+}
+
+/* content-editor */
+.content-editor .ql-container.ql-snow,
+.content-editor .ql-snow .ql-tooltip,
+.content-editor .ql-toolbar.ql-snow {
+  font-family: var(--secondary-font-family);
+  border: 0.0625rem solid var(--tertiary-border-color);
+}
+.content-editor_indent-top {
+  padding: 0.375rem 0 0;
+}
+.content-editor__nav-panel {
+  background: var(--twelve-background-color);
+}
+.content-editor__textarea {
+  height: 6.25rem !important;
 }
 
 /* header */
@@ -5132,10 +5357,20 @@ textarea::-webkit-input-placeholder {
   font-size: 1rem;
   line-height: 1.625rem;
 }
+.form__item_full-size {
+  grid-column: 1/-1;
+}
 .form__btns-col {
   display: flex;
   align-items: center;
   gap: 0 1.25rem;
+}
+.form__info-text {
+  display: block;
+  padding: 0.25rem 0 0;
+  color: var(--secondary-text-color);
+  font-size: 0.9375rem;
+  line-height: 1.5rem;
 }
 
 /* table */
@@ -5238,6 +5473,20 @@ textarea::-webkit-input-placeholder {
 .actions-panel__delete {
   background: url(../img/icons/delete.svg) center no-repeat;
   background-size: 100%;
+}
+
+/* phone-fields-list */
+.phone-fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem 0;
+  align-items: flex-start;
+}
+.phone-fields-list__item {
+  width: 100%;
+}
+.phone-fields-list__item.hidden {
+  display: none;
 }
 
 /* footer */
@@ -5516,6 +5765,15 @@ textarea::-webkit-input-placeholder {
   .to-top {
     right: 0.9375rem;
     bottom: 0.9375rem;
+  }
+}
+/* 1023 */
+@media (max-width: 1023px) {
+  .gl-select .ss-content {
+    width: 100%;
+  }
+  .gl-select-checkbox .ss-content {
+    width: 100%;
   }
 }
 /* 767 */
