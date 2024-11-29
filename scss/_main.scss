@@ -3933,10 +3933,22 @@
 		font-size: 1rem;
 		line-height: 1.625rem;
 		}
+	&__item {
+		&_full-size {
+			grid-column: 1 / -1;
+			}
+		}
 	&__btns-col {
 		display: flex;
 		align-items: center;
 		gap: 0 1.25rem;
+		}
+	&__info-text {
+		display: block;
+		padding: 0.25rem 0 0;
+		color: var(--secondary-text-color);
+		font-size: 0.9375rem;
+		line-height: 1.5rem;
 		}
 	}
 
@@ -4041,5 +4053,19 @@
 	&__delete {
 		background: url(../img/icons/delete.svg) center no-repeat;
     background-size: 100%;
+		}
+	}
+
+/* phone-fields-list */
+.phone-fields-list {
+	display: flex;
+	flex-direction: column;
+	gap: 0.375rem 0;
+	align-items: flex-start;
+	&__item {
+		width: 100%;
+		&.hidden {
+			display: none;
+			}
 		}
 	}
