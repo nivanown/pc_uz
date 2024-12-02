@@ -912,30 +912,37 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-/*- mail -*/
-const mailField = document.getElementById("mail");
+/*- mail, website -*/
+const fieldIds = ["mail", "website", "link"];
 
-if (mailField) {
-    mailField.addEventListener("input", function (event) {
-        const inputField = event.target;
-        const value = inputField.value;
+// Функция для установки фильтра
+function setupInputFilter(fieldId) {
+    const inputField = document.getElementById(fieldId);
 
-        // Удаляем символы кириллицы
-        const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
+    if (inputField) {
+        inputField.addEventListener("input", function (event) {
+            const value = event.target.value;
 
-        // Если строка изменилась, обновляем значение поля
-        if (value !== filteredValue) {
-            inputField.value = filteredValue;
+            // Удаляем символы кириллицы
+            const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
 
-            // Опционально: показываем предупреждение
-            inputField.style.borderColor = "red";
-            inputField.setCustomValidity("Кириллица запрещена");
-        } else {
-            inputField.style.borderColor = "";
-            inputField.setCustomValidity("");
-        }
-    });
+            // Если строка изменилась, обновляем значение поля
+            if (value !== filteredValue) {
+                event.target.value = filteredValue;
+
+                // Опционально: показываем предупреждение
+                event.target.style.borderColor = "red";
+                event.target.setCustomValidity("Кириллица запрещена");
+            } else {
+                event.target.style.borderColor = "";
+                event.target.setCustomValidity("");
+            }
+        });
+    }
 }
+
+// Применяем функцию для всех ID
+fieldIds.forEach(setupInputFilter);
 
 /*- name -*/
 const nameInput = document.getElementById('name');
@@ -1049,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const errorText = imageFileContainer.querySelector('.input-file__error-text');
 
         if (fileInput && fileText && errorText) {
-            const allowedExtensions = ['jpg', 'png'];
+            const allowedExtensions = ['jpg', 'png', 'webp'];
 
             fileInput.addEventListener('change', () => {
                 if (fileInput.files.length > 0) {
@@ -1317,7 +1324,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/*- phone-fields -*/
 document.addEventListener('DOMContentLoaded', () => {
     const phoneFieldsList = document.querySelector('.phone-fields-list');
     const phoneFieldsInList = phoneFieldsList?.querySelectorAll('.phone-fields-list__item');
@@ -1326,7 +1332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentIndex = 0; // Индекс текущего активного поля в списке
 
     // Функция проверки полного номера телефона
-    const isPhoneValid = (phone) => phone.length === 17; // +998 XX XXX-XX-XX (17 символов)
+    const isPhoneValid = (phone) => phone.length === 17; // +998 XX XXX XX XX (17 символов)
 
     // Универсальная функция для маски ввода телефона
     const formatPhoneInput = (phoneInput) => {
@@ -1338,11 +1344,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 value = '998' + value;
             }
 
-            // Ограничиваем длину до 12 символов (998 XX XXX-XX-XX)
+            // Ограничиваем длину до 12 символов (998 XX XXX XX XX)
             value = value.slice(0, 12);
 
-            // Форматируем в маску +998 XX XXX-XX-XX
-            const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)}-${value.slice(8, 10)}-${value.slice(10, 12)}`;
+            // Форматируем в маску +998 XX XXX XX XX
+            const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)} ${value.slice(8, 10)} ${value.slice(10, 12)}`;
             phoneInput.value = formattedValue.trim();
         });
 
@@ -1358,9 +1364,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                // Если курсор перед символами форматирования (пробел, дефис)
+                // Если курсор перед символами форматирования (пробел)
                 const prevChar = value[cursorPosition - 1];
-                if (/\s|-/.test(prevChar)) {
+                if (/\s/.test(prevChar)) {
                     event.preventDefault();
 
                     // Удаляем символ форматирования и перемещаем курсор
@@ -1455,6 +1461,35 @@ if (editor2 && toolbar2) {
         modules: {
             toolbar: toolbar2
         }
+    });
+}
+
+/*- password-form -*/
+const passwordForm = document.getElementById("password-form");
+
+if (passwordForm) {
+    const currentPasswordInput = passwordForm.querySelector("#current-password");
+    const passwordInput = passwordForm.querySelector("#password");
+    const repeatPasswordInput = passwordForm.querySelector("#repeat-password");
+    const submitButton = passwordForm.querySelector(".btn[type='submit']");
+
+    // Функция проверки заполненности всех полей
+    const checkInputs = () => {
+        const isCurrentPasswordFilled = currentPasswordInput.value.trim() !== "";
+        const isPasswordFilled = passwordInput.value.trim() !== "";
+        const isRepeatPasswordFilled = repeatPasswordInput.value.trim() !== "";
+
+        // Удаляем или добавляем атрибут disabled у кнопки
+        if (isCurrentPasswordFilled && isPasswordFilled && isRepeatPasswordFilled) {
+            submitButton.removeAttribute("disabled");
+        } else {
+            submitButton.setAttribute("disabled", "disabled");
+        }
+    };
+
+    // Добавляем обработчики ввода для каждого поля
+    [currentPasswordInput, passwordInput, repeatPasswordInput].forEach(input => {
+        input.addEventListener("input", checkInputs);
     });
 }
 
