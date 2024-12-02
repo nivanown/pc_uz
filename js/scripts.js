@@ -1202,15 +1202,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const glSelectBlock = document.querySelector('.gl-select__field'); // Другой интерактивный блок на странице
 
     if (!selectCheckbox) {
-        console.warn('Компонент .gl-select-checkbox не найден на странице.');
+        //console.warn('Компонент .gl-select-checkbox не найден на странице.');
         return; // Останавливаем выполнение кода, если элемента нет
     }
 
     // Функция для переключения видимости выпадающего списка
     const toggleDropdown = (event) => {
         event.stopPropagation();
-        selectCheckbox.classList.toggle('open');
-        dropdown.classList.toggle('show');
+        if (selectCheckbox && dropdown) {
+            selectCheckbox.classList.toggle('open');
+            dropdown.classList.toggle('show');
+        }
     };
 
     // Функция для сброса результатов поиска
@@ -1224,8 +1226,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Функция для закрытия выпадающего списка
     const closeDropdown = () => {
-        selectCheckbox.classList.remove('open');
-        dropdown.classList.remove('show');
+        if (selectCheckbox && dropdown) {
+            selectCheckbox.classList.remove('open');
+            dropdown.classList.remove('show');
+        }
         resetSearch(); // Сбрасываем результаты поиска при закрытии
     };
 
@@ -1236,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Закрываем выпадающий список при клике за его пределами
     document.addEventListener('click', (event) => {
-        if (!selectCheckbox.contains(event.target)) {
+        if (selectCheckbox && !selectCheckbox.contains(event.target)) {
             closeDropdown();
         }
     });
@@ -1252,17 +1256,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (checkboxItems) {
         checkboxItems.forEach((item) => {
             const checkbox = item.querySelector('input[type="checkbox"]');
-
             if (checkbox) {
                 checkbox.addEventListener('click', (event) => {
                     event.stopPropagation();
-
-                    // Переключаем класс active только у текущего элемента li
-                    if (item.classList.contains('active')) {
-                        item.classList.remove('active');
-                    } else {
-                        item.classList.add('active');
-                    }
+                    item.classList.toggle('active');
                 });
             }
         });
@@ -1272,14 +1269,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             const searchValue = searchInput.value.toLowerCase();
-
             checkboxItems.forEach((item) => {
-                const label = item.querySelector('label').textContent.toLowerCase();
-                if (label.includes(searchValue)) {
-                    item.style.display = '';
-                } else {
-                    item.style.display = 'none';
-                }
+                const label = item.querySelector('label')?.textContent.toLowerCase() || '';
+                item.style.display = label.includes(searchValue) ? '' : 'none';
             });
         });
     }
@@ -1287,15 +1279,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для обновления значения в поле ввода
     const updateSelectedValues = () => {
         if (!checkboxes || !selectedValuesInput) return;
-
-        const selectedValues = [];
-        checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-                const label = checkbox.nextElementSibling.textContent.trim();
-                selectedValues.push(label);
-            }
-        });
-
+        const selectedValues = Array.from(checkboxes)
+            .filter((checkbox) => checkbox.checked)
+            .map((checkbox) => checkbox.nextElementSibling.textContent.trim());
         selectedValuesInput.value = selectedValues.length
             ? selectedValues.join(', ')
             : 'Выберите из списка';
@@ -1313,7 +1299,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resetButton) {
         resetButton.addEventListener('click', () => {
             if (!checkboxes || !checkboxItems) return;
-
             checkboxes.forEach((checkbox) => (checkbox.checked = false));
             checkboxItems.forEach((item) => item.classList.remove('active'));
             if (selectedValuesInput) {
@@ -1324,6 +1309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/*- phone-fields -*/
 document.addEventListener('DOMContentLoaded', () => {
     const phoneFieldsList = document.querySelector('.phone-fields-list');
     const phoneFieldsInList = phoneFieldsList?.querySelectorAll('.phone-fields-list__item');
