@@ -4,35 +4,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchDropdown = document.querySelector('.search-panel__dropdown');
     const searchOverlay = document.querySelector('.search-panel__overlay');  // Находим элемент overlay
 
-    // Функция для переключения классов
     function togglePanel() {
         searchIcon.classList.toggle('open');
         searchDropdown.classList.toggle('show');
     }
 
-    // Функция для удаления классов
     function closePanel() {
         searchIcon.classList.remove('open');
         searchDropdown.classList.remove('show');
     }
 
-    // Обработчик клика на search-panel__icon
     searchIcon.addEventListener('click', function(event) {
         event.stopPropagation();  // Останавливаем всплытие события, чтобы не вызвать закрытие при клике на саму панель
         togglePanel();
     });
 
-    // Обработчик клика на свободную область (document)
     document.addEventListener('click', function(event) {
-        // Если клик не по панели, закрываем панель
         if (!searchIcon.contains(event.target) && !searchDropdown.contains(event.target)) {
             closePanel();
         }
     });
 
-    // Обработчик клика на search-panel__overlay
     searchOverlay.addEventListener('click', function() {
-        closePanel();  // Закрываем панель при клике на overlay
+        closePanel();
     });
 });
 
@@ -40,26 +34,22 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const languageText = document.querySelector('.language__text');
     const languageDropdown = document.querySelector('.language__dropdown');
-
-    // Функция для переключения классов
+	
     function togglePanel() {
         languageText.classList.toggle('open');
         languageDropdown.classList.toggle('show');
     }
 
-    // Функция для удаления классов
     function closePanel() {
         languageText.classList.remove('open');
         languageDropdown.classList.remove('show');
     }
 
-    // Обработчик клика на user-panel__col
     languageText.addEventListener('click', function(event) {
         event.stopPropagation();  // Останавливаем всплытие события, чтобы не вызвать закрытие при клике на саму панель
         togglePanel();
     });
 
-    // Обработчик клика на свободную область (document)
     document.addEventListener('click', function(event) {
         // Если клик не по панели, закрываем панель
         if (!languageText.contains(event.target) && !languageDropdown.contains(event.target)) {
@@ -73,28 +63,21 @@ document.querySelectorAll('.tabs__nav li').forEach(button => {
   button.addEventListener('click', () => {
     const tabNumber = button.getAttribute('data-tab');
 
-    // Проверяем наличие атрибута data-tab
     if (!tabNumber) return;
 
-    // Убираем активный класс у всех кнопок в обеих навигациях
     document.querySelectorAll('.tabs__nav li').forEach(btn => btn.classList.remove('active'));
 
-    // Убираем активный класс у всех контентов
     document.querySelectorAll('.tabs__item').forEach(content => {
       content.classList.remove('active');
     });
 
-    // Добавляем активный класс для выбранных элементов в обеих навигациях
     document.querySelectorAll(`.tabs__nav li[data-tab="${tabNumber}"]`).forEach(btn => btn.classList.add('active'));
 
-    // Активируем соответствующий контент
     document.getElementById(`tab-${tabNumber}`).classList.add('active');
   });
 });
 
 /*- products-slider -*/
-
-// Функция для получения текущего размера rem
 function getRemSize() {
     return parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
@@ -102,7 +85,6 @@ function getRemSize() {
 let swiperInstances = [];
 
 function initializeSwipers() {
-    // Если уже есть экземпляры Swiper, уничтожаем их перед созданием новых
     if (swiperInstances.length > 0) {
         swiperInstances.forEach(instance => instance.destroy(true, true));
         swiperInstances = [];
@@ -158,14 +140,12 @@ function initializeSwipers() {
     });
 }
 
-// Дебаунс для оптимизации вызова при изменении размера окна
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(initializeSwipers, 300);
 });
 
-// Инициализируем слайдеры при загрузке
 initializeSwipers();
 
 /*- events-slider -*/
@@ -214,17 +194,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Обновляем состояние при загрузке страницы
     updateDisabledState();
 
     navItems.forEach((navItem, index) => {
         navItem.addEventListener("click", function () {
             if (navItem.classList.contains("disabled")) return;
 
-            // Удаление активного класса с текущих активных элементов
             document.querySelectorAll(".search-result-tabs__nav .active, .search-result-tabs__content .active").forEach(el => el.classList.remove("active"));
 
-            // Добавление активного класса к выбранным элементам
             navItem.classList.add("active");
             contentItems[index].classList.add("active");
         });
@@ -238,11 +215,9 @@ document.querySelectorAll('.widget-tabs').forEach(widget => {
 
     tabs.forEach((tab, index) => {
         tab.addEventListener('click', () => {
-            // Удаляем класс active со всех табов и контента в этом виджете
             tabs.forEach(t => t.classList.remove('active'));
             contents.forEach(content => content.classList.remove('active'));
 
-            // Добавляем класс active к текущему табу и соответствующему контенту
             tab.classList.add('active');
             contents[index].classList.add('active');
         });
@@ -272,17 +247,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (listItems.length === 0 || !allLink || !hideLink) return;
 
-    // Функция для определения количества видимых элементов в зависимости от разрешения
     function getItemsToShow() {
         const isMobile = window.matchMedia("(max-width: 767px)").matches;
         return isMobile ? 4 : 9;
     }
 
-    // Функция для обновления отображения списка и ссылок
     function updateListItems(showAll = false) {
         const itemsToShow = getItemsToShow();
 
-        // Обновляем видимость элементов списка
         listItems.forEach((item, index) => {
             if (index >= itemsToShow) {
                 item.classList.toggle("hidden", !showAll);
@@ -291,7 +263,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Управляем видимостью ссылок
         if (listItems.length <= itemsToShow) {
             allLink.classList.add("hidden");
             hideLink.classList.remove("open");
@@ -302,159 +273,132 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Клик по "Показать все рубрики"
     allLink.addEventListener("click", function () {
         allLink.classList.add("close");
         hideLink.classList.add("open");
 
-        updateListItems(true); // Показываем все элементы
+        updateListItems(true);
     });
 
-    // Клик по "Скрыть все рубрики"
     hideLink.addEventListener("click", function () {
         hideLink.classList.remove("open");
         allLink.classList.remove("close");
 
-        updateListItems(false); // Скрываем лишние элементы
+        updateListItems(false);
     });
 
-    // Слушаем изменение ширины экрана
     window.addEventListener("resize", () => {
-        updateListItems(false); // Возвращаем список к изначальному состоянию
+        updateListItems(false); 
     });
 
-    // Изначальное состояние
     updateListItems(false);
 });
 
 /*- select -*/
 const selects = document.querySelectorAll('.select');
-const inputs = document.querySelectorAll('.select-hidden-form input'); // Получаем все input
+const inputs = document.querySelectorAll('.select-hidden-form input');
 
-// Функция для закрытия всех open/show классов
 function closeAllSelects(exceptSelect) {
     selects.forEach(select => {
         if (select !== exceptSelect) {
             const selectText = select.querySelector('.select__text');
             const selectDropdown = select.querySelector('.select__dropdown');
-            select.classList.remove('open'); // Удаляем класс open у select
+            select.classList.remove('open');
             selectText.classList.remove('open');
             selectDropdown.classList.remove('show');
         }
     });
 }
 
-// Функция для переноса данных из select__text в input
 function syncSelectWithInput() {
     selects.forEach((select, index) => {
-        const input = inputs[index]; // Соответствующий input
+        const input = inputs[index];
         const selectText = select.querySelector('.select__text');
 
-        // Перенос текста в input
         if (input && selectText) {
             input.value = selectText.textContent;
         }
     });
 }
 
-// Обрабатываем каждый select
 selects.forEach(select => {
     const selectText = select.querySelector('.select__text');
     const selectDropdown = select.querySelector('.select__dropdown');
     const listItems = select.querySelectorAll('.select__dropdown li');
 
-    // Функция для переключения классов на .select и .select__dropdown
     selectText.addEventListener('click', (event) => {
-        event.stopPropagation(); // Останавливаем всплытие, чтобы клик по select не закрывал его
+        event.stopPropagation();
 
-        // Если меню открыто, закрываем его, если нет — открываем
         const isOpen = select.classList.contains('open');
-        closeAllSelects(select); // Закрываем все другие select
+        closeAllSelects(select);
         if (!isOpen) {
-            select.classList.add('open'); // Добавляем класс open к select
+            select.classList.add('open');
             selectText.classList.add('open');
             selectDropdown.classList.add('show');
         } else {
-            select.classList.remove('open'); // Удаляем класс open у select
+            select.classList.remove('open');
             selectText.classList.remove('open');
             selectDropdown.classList.remove('show');
         }
     });
 
-    // Функция для обновления текста и класса active на <li>
     listItems.forEach(item => {
         item.addEventListener('click', (event) => {
-            event.stopPropagation(); // Останавливаем всплытие, чтобы клик по <li> не закрывал select
+            event.stopPropagation();
 
-            // Убираем класс active со всех элементов <li>
             listItems.forEach(li => li.classList.remove('active'));
 
-            // Добавляем класс active к текущему выбранному элементу
             item.classList.add('active');
 
-            // Обновляем текст в .select__text
             selectText.textContent = item.textContent;
 
-            // Перенос данных в input
             syncSelectWithInput();
 
-            // Закрываем выпадающее меню
-            select.classList.remove('open'); // Удаляем класс open у select
+            select.classList.remove('open');
             selectText.classList.remove('open');
             selectDropdown.classList.remove('show');
         });
     });
 
-    // Закрытие меню при клике на любую область страницы, кроме текущего select
     document.addEventListener('click', (event) => {
         if (!select.contains(event.target)) {
-            select.classList.remove('open'); // Удаляем класс open у select
+            select.classList.remove('open');
             selectText.classList.remove('open');
             selectDropdown.classList.remove('show');
         }
     });
 });
 
-// Инициализируем начальные значения input
 syncSelectWithInput();
 
 /*- phone-panel -*/
 document.addEventListener("DOMContentLoaded", function() {
-    // Функция для инициализации скрытия и маскировки в блоке phone-panel
     function initializePhonePanel(panel) {
         const showLink = panel.querySelector(".phone-panel__show-link");
         const phoneNumbers = panel.querySelectorAll(".phone-panel__number");
 
-        // Скрываем все номера, кроме первого, и маскируем последние 4 цифры
         phoneNumbers.forEach((number, index) => {
             if (index > 0) {
                 number.classList.add("hidden");
             }
-            // Сохраняем полный номер в data-атрибут
             number.dataset.fullNumber = number.textContent;
-            // Маскируем последние 4 цифры на "xx xx"
             number.textContent = number.textContent.slice(0, -5) + "xx xx";
         });
 
-        // Функция для показа полных номеров
         function showPhoneNumbers() {
             phoneNumbers.forEach((number, index) => {
                 number.classList.remove("hidden");
-                // Восстанавливаем полный номер
                 number.textContent = number.dataset.fullNumber;
-                // Добавляем запятую, если это не последний номер
                 if (index < phoneNumbers.length - 1) {
                     number.innerHTML += ",";
                 }
             });
-            showLink.classList.add("hidden"); // Скрываем ссылку "Показать номер"
+            showLink.classList.add("hidden");
         }
 
-        // Обработчик клика на ссылку "Показать номер"
         showLink.addEventListener("click", showPhoneNumbers);
     }
 
-    // Инициализируем все блоки phone-panel на странице
     document.querySelectorAll(".phone-panel").forEach(initializePhonePanel);
 });
 
@@ -462,42 +406,32 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function () {
     const widget = document.querySelector(".info-widget");
 
-    // Проверяем наличие виджета
     if (!widget) return;
 
     const paragraphs = widget.querySelectorAll("p");
     const allLink = widget.querySelector(".info-widget__all-link");
     const hideLink = widget.querySelector(".info-widget__hide-link");
 
-    // Проверяем наличие элементов
     if (!allLink || !hideLink || paragraphs.length === 0) return;
 
-    // Скрываем ссылку "Читать все", если параграфов <= 1
     if (paragraphs.length <= 1) {
         allLink.classList.add("hidden");
         return;
     }
 
-    // Изначально отображаем только первый параграф
     paragraphs.forEach((p, index) => {
         if (index > 0) p.classList.add("hidden");
     });
 
-    // Клик по "Читать все"
     allLink.addEventListener("click", function () {
         allLink.classList.add("close");
         hideLink.classList.add("open");
-
-        // Показываем все параграфы
         paragraphs.forEach((p) => p.classList.remove("hidden"));
     });
 
-    // Клик по "Скрыть всё"
     hideLink.addEventListener("click", function () {
         hideLink.classList.remove("open");
         allLink.classList.remove("close");
-
-        // Скрываем все параграфы, кроме первого
         paragraphs.forEach((p, index) => {
             if (index > 0) p.classList.add("hidden");
         });
@@ -535,22 +469,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const icon = document.querySelector(".social-panel__icon");
     const dropdown = document.querySelector(".social-panel__dropdown");
 
-    // Проверяем, что оба элемента существуют на странице
     if (icon && dropdown) {
         // Функция для переключения класса show
         function toggleDropdown(event) {
-            event.stopPropagation(); // Останавливаем всплытие события, чтобы клик на иконке не закрывал меню
+            event.stopPropagation();
             dropdown.classList.toggle("show");
         }
 
-        // Функция для закрытия dropdown при клике вне панели
         function closeDropdown(event) {
             if (!dropdown.contains(event.target) && !icon.contains(event.target)) {
                 dropdown.classList.remove("show");
             }
         }
 
-        // Добавляем обработчики событий
         icon.addEventListener("click", toggleDropdown);
         document.addEventListener("click", closeDropdown);
     }
@@ -574,40 +505,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!allLink || !hideLink || items.length === 0) return;
 
-        // Функция для обновления текстов ссылок и их видимости
         function updateLinkText() {
             const hiddenItemsCount = block.querySelectorAll(
                 `.news-list__item.${hiddenClass}`
             ).length;
 
-            // Обновляем текст ссылок
             allLink.textContent = `Показать еще ${hiddenItemsCount}`;
             hideLink.textContent = `Скрыть еще ${items.length - itemsToShow}`;
 
-            // Управляем видимостью hideLink
             if (hiddenItemsCount > 0) {
-                hideLink.classList.remove(hiddenClass); // Показываем hideLink
+                hideLink.classList.remove(hiddenClass);
             } else {
-                hideLink.classList.add(hiddenClass); // Скрываем hideLink
+                hideLink.classList.add(hiddenClass);
             }
 
-            // Управляем видимостью allLink
             if (items.length <= itemsToShow) {
-                allLink.classList.add(hiddenClass); // Скрываем allLink, если элементов меньше или равно itemsToShow
+                allLink.classList.add(hiddenClass);
             } else {
-                allLink.classList.remove(hiddenClass); // Показываем allLink
+                allLink.classList.remove(hiddenClass);
             }
         }
 
-        // Изначально скрываем элементы кроме первых itemsToShow
         items.forEach((item, index) => {
             if (index >= itemsToShow) item.classList.add(hiddenClass);
         });
 
-        // Инициализируем начальное состояние
         updateLinkText();
 
-        // Обработка клика на "Показать еще"
         allLink.addEventListener("click", function () {
             items.forEach((item) => item.classList.remove(hiddenClass));
             allLink.classList.add("close");
@@ -615,7 +539,6 @@ document.addEventListener("DOMContentLoaded", function () {
             updateLinkText();
         });
 
-        // Обработка клика на "Скрыть еще"
         hideLink.addEventListener("click", function () {
             items.forEach((item, index) => {
                 if (index >= itemsToShow) item.classList.add(hiddenClass);
@@ -630,66 +553,56 @@ document.addEventListener("DOMContentLoaded", function () {
 /*- photo-gallery -*/
 document.addEventListener("DOMContentLoaded", function () {
     const publications = document.getElementById("gallery-list");
-    if (!publications) return; // Если блок с id "gallery-list" не найден, выходим из функции
+    if (!publications) return;
 
     const items = publications.querySelectorAll(".photo-gallery__item");
     const allLink = publications.querySelector(".photo-gallery__all-link");
     const hideLink = publications.querySelector(".photo-gallery__hide-link");
 
     const hiddenClass = "hidden";
-    const itemsToShow = 4; // Показываем только первые 4 элемента
+    const itemsToShow = 4;
 
     if (!allLink || !hideLink || items.length === 0) return;
-
-    // Функция для обновления текста ссылок
+	
     function updateLinkText() {
         const hiddenItemsCount = publications.querySelectorAll(`.photo-gallery__item.${hiddenClass}`).length;
         const visibleItemsCount = items.length - hiddenItemsCount;
 
-        // Обновляем текст ссылки "Показать еще X"
         allLink.textContent = `Показать еще ${hiddenItemsCount}`;
 
-        // Обновляем текст ссылки "Скрыть еще X"
         hideLink.textContent = `Скрыть еще ${visibleItemsCount - itemsToShow}`;
 
-        // Управляем видимостью allLink
         if (hiddenItemsCount === 0) {
-            allLink.classList.add(hiddenClass); // Скрываем allLink, если больше нет скрытых элементов
+            allLink.classList.add(hiddenClass);
         } else {
-            allLink.classList.remove(hiddenClass); // Показываем allLink
+            allLink.classList.remove(hiddenClass);
         }
 
-        // hideLink всегда видим
         hideLink.classList.remove(hiddenClass);
     }
 
-    // Изначально скрываем все элементы, кроме первых itemsToShow
     items.forEach((item, index) => {
         if (index >= itemsToShow) item.classList.add(hiddenClass);
     });
 
-    // Устанавливаем начальное состояние видимости ссылок
     updateLinkText();
 
-    // Переключение состояния по клику на "Показать еще"
     allLink.addEventListener("click", function () {
-        items.forEach((item) => item.classList.remove(hiddenClass)); // Показываем все элементы
+        items.forEach((item) => item.classList.remove(hiddenClass));
         allLink.classList.add("close");
         hideLink.classList.add("open");
         updateLinkText();
     });
 
-    // Переключение состояния по клику на "Скрыть еще"
     hideLink.addEventListener("click", function () {
         items.forEach((item, index) => {
-            if (index >= itemsToShow) item.classList.add(hiddenClass); // Скрываем элементы, начиная с itemsToShow
+            if (index >= itemsToShow) item.classList.add(hiddenClass);
         });
         allLink.classList.remove("close");
         hideLink.classList.remove("open");
         updateLinkText();
     });
 
-    // Слушаем изменение ширины экрана для адаптивного поведения
     window.addEventListener("resize", updateLinkText);
 });
 
@@ -697,13 +610,11 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function() {
     const infoBlock = document.getElementById("info-block");
 
-    // Проверяем, существует ли блок "info-block" на странице
     if (!infoBlock) return;
 
     const paragraphs = infoBlock.querySelectorAll("p");
     const allLink = infoBlock.querySelector(".info-block__all-link");
 
-    // Показываем только 3 первых параграфа, остальные скрываем
     if (paragraphs.length > 3) {
         paragraphs.forEach((p, index) => {
             if (index >= 3) {
@@ -714,14 +625,11 @@ document.addEventListener("DOMContentLoaded", function() {
         allLink.classList.add("hidden");
     }
 
-    // Обработчик клика на ссылку "Читать все"
     allLink?.addEventListener("click", function() {
         const isExpanded = allLink.textContent === "Скрыть";
         
-        // Меняем текст ссылки
         allLink.textContent = isExpanded ? "Читать все" : "Скрыть";
         
-        // Переключаем видимость параграфов
         paragraphs.forEach((p, index) => {
             if (index >= 3) {
                 p.classList.toggle("hidden", isExpanded);
@@ -745,31 +653,28 @@ if (elements.length > 0) {
 
 /*- gl-modal -*/
 document.addEventListener('click', (event) => {
-    // Открытие модального окна при наличии атрибута data-target
     const targetSelector = event.target.dataset.target;
     if (targetSelector) {
         const modal = document.querySelector(targetSelector);
 
         if (modal) {
-            modal.classList.add('show'); // Добавляем класс 'show'
-            document.body.classList.add('scroll-none'); // Отключаем скролл на body
+            modal.classList.add('show');
+            document.body.classList.add('scroll-none');
         }
     }
 
-    // Закрытие модального окна
     if (
-        event.target.matches('.gl-modal__close-btn') || // Клик по кнопке закрытия
-        event.target.matches('.gl-modal__overlay')     // Клик по оверлею
+        event.target.matches('.gl-modal__close-btn') ||
+        event.target.matches('.gl-modal__overlay')
     ) {
-        const modal = event.target.closest('.gl-modal'); // Находим родительское модальное окно
+        const modal = event.target.closest('.gl-modal');
 
         if (modal) {
-            modal.classList.remove('show'); // Удаляем класс 'show'
+            modal.classList.remove('show');
         }
 
-        // Проверяем, если больше нет активных модальных окон
         if (!document.querySelector('.gl-modal.show')) {
-            document.body.classList.remove('scroll-none'); // Включаем скролл на body
+            document.body.classList.remove('scroll-none'); 
         }
     }
 });
@@ -781,18 +686,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalOverlay = document.querySelector('.gallery-modal__overlay');
     const body = document.body;
 
-    // Проверяем, есть ли элементы на странице, прежде чем вешать обработчики
     if (galleryItems.length > 0 && modal && modalOverlay) {
-        // Открытие модального окна
         galleryItems.forEach(item => {
             item.addEventListener('click', (event) => {
-                event.preventDefault(); // предотвращаем переход по ссылке
+                event.preventDefault();
                 modal.classList.add('show');
                 body.classList.add('scroll-none');
             });
         });
 
-        // Закрытие модального окна
         modalOverlay.addEventListener('click', () => {
             modal.classList.remove('show');
             body.classList.remove('scroll-none');
@@ -888,25 +790,23 @@ var swiper2 = new Swiper(".product-slider__big", {
 
 /*- product-modal -*/
 document.addEventListener('DOMContentLoaded', () => {
-    // Обработчик для элементов с атрибутом data-modal
     document.querySelectorAll('[data-modal]').forEach(element => {
         element.addEventListener('click', () => {
-            const modalId = element.dataset.modal; // Получаем ID модального окна
+            const modalId = element.dataset.modal;
             const modal = document.getElementById(modalId);
             if (modal) {
-                modal.classList.add('show'); // Добавляем класс show
-                document.body.classList.add('scroll-none'); // Блокируем прокрутку
+                modal.classList.add('show');
+                document.body.classList.add('scroll-none');
             }
         });
     });
 
-    // Обработчик для кнопок закрытия модальных окон
     document.querySelectorAll('.product-modal__close-button').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
-            const modal = closeBtn.closest('.product-modal'); // Находим родительский модальный блок
+            const modal = closeBtn.closest('.product-modal');
             if (modal) {
-                modal.classList.remove('show'); // Убираем класс show
-                document.body.classList.remove('scroll-none'); // Убираем блокировку скролла
+                modal.classList.remove('show');
+                document.body.classList.remove('scroll-none');
             }
         });
     });
@@ -915,7 +815,6 @@ document.addEventListener('DOMContentLoaded', () => {
 /*- mail, website -*/
 const fieldIds = ["mail", "website", "link"];
 
-// Функция для установки фильтра
 function setupInputFilter(fieldId) {
     const inputField = document.getElementById(fieldId);
 
@@ -923,14 +822,10 @@ function setupInputFilter(fieldId) {
         inputField.addEventListener("input", function (event) {
             const value = event.target.value;
 
-            // Удаляем символы кириллицы
             const filteredValue = value.replace(/[а-яА-ЯёЁ]/g, "");
 
-            // Если строка изменилась, обновляем значение поля
             if (value !== filteredValue) {
                 event.target.value = filteredValue;
-
-                // Опционально: показываем предупреждение
                 event.target.style.borderColor = "red";
                 event.target.setCustomValidity("Кириллица запрещена");
             } else {
@@ -941,39 +836,34 @@ function setupInputFilter(fieldId) {
     }
 }
 
-// Применяем функцию для всех ID
 fieldIds.forEach(setupInputFilter);
 
 /*- name -*/
 const nameInput = document.getElementById('name');
 
 if (nameInput) {
-    // Добавляем обработчик события ввода
     nameInput.addEventListener('input', (event) => {
         const value = event.target.value;
-
-        // Оставляем только буквы (удаляем все лишние символы)
         const lettersOnly = value.replace(/[^a-zA-Zа-яА-ЯёЁ]/g, '');
         
-        // Если введённое значение изменилось, обновляем поле
         if (value !== lettersOnly) {
             event.target.value = lettersOnly;
-            nameInput.style.borderColor = "red"; // Красная рамка
+            nameInput.style.borderColor = "red";
         } else {
-            nameInput.style.borderColor = ""; // Сбрасываем стиль
+            nameInput.style.borderColor = "";
         }
     });
 }
 
 /*- search-form -*/
 document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById('search-form'); // Проверяем наличие формы
-    if (!form) return; // Если форма отсутствует, выходим из функции
+    const form = document.getElementById('search-form');
+    if (!form) return;
 
-    const input = document.getElementById('search-input'); // Проверяем наличие input
-    const button = document.getElementById('search-button'); // Проверяем наличие button
+    const input = document.getElementById('search-input');
+    const button = document.getElementById('search-button');
 
-    if (!input || !button) return; // Если хотя бы одного элемента нет, выходим из функции
+    if (!input || !button) return;
 
     input.addEventListener('input', () => {
         if (input.value.trim() === '') {
@@ -988,29 +878,24 @@ document.addEventListener('DOMContentLoaded', () => {
 const passwordInput = document.getElementById('password');
 const repeatPasswordInput = document.getElementById('repeat-password');
 
-// Проверяем, что элементы существуют на странице
 if (passwordInput && repeatPasswordInput) {
-    // Функция для проверки совпадения паролей
     function validatePasswords() {
         if (passwordInput.value !== repeatPasswordInput.value) {
-            // Если пароли не совпадают, меняем цвет бордера на красный
             passwordInput.style.borderColor = 'red';
             repeatPasswordInput.style.borderColor = 'red';
         } else {
-            // Если совпадают, возвращаем цвет бордера к стандартному
             passwordInput.style.borderColor = '';
             repeatPasswordInput.style.borderColor = '';
         }
     }
 
-    // Добавляем слушатели событий на оба поля ввода
     passwordInput.addEventListener('input', validatePasswords);
     repeatPasswordInput.addEventListener('input', validatePasswords);
 }
 
 /*- input-file -*/
 document.addEventListener('DOMContentLoaded', () => {
-    const docFileContainer = document.getElementById('doc-file'); // Контейнер
+    const docFileContainer = document.getElementById('doc-file');
 
     if (docFileContainer) {
         const fileInput = docFileContainer.querySelector('.input-file__field');
@@ -1026,17 +911,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const fileExtension = fileName.split('.').pop().toLowerCase();
 
                     if (allowedExtensions.includes(fileExtension)) {
-                        // Показываем имя файла, скрываем ошибку
                         fileText.textContent = fileName;
                         fileText.classList.remove('hidden');
                         errorText.classList.remove('show');
                     } else {
-                        // Показываем ошибку, скрываем текст выбора файла
                         fileText.classList.add('hidden');
                         errorText.classList.add('show');
                     }
                 } else {
-                    // Сбрасываем к стандартному виду
                     fileText.textContent = 'Выбрать файл';
                     fileText.classList.remove('hidden');
                     errorText.classList.remove('show');
@@ -1048,7 +930,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*- image-file -*/
 document.addEventListener('DOMContentLoaded', () => {
-    const imageFileContainer = document.getElementById('image-file'); // Контейнер
+    const imageFileContainer = document.getElementById('image-file');
 
     if (imageFileContainer) {
         const fileInput = imageFileContainer.querySelector('.input-file__field');
@@ -1064,17 +946,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const fileExtension = fileName.split('.').pop().toLowerCase();
 
                     if (allowedExtensions.includes(fileExtension)) {
-                        // Показываем имя файла, скрываем ошибку
                         fileText.textContent = fileName;
                         fileText.classList.remove('hidden');
                         errorText.classList.remove('show');
                     } else {
-                        // Показываем ошибку, скрываем текст выбора файла
                         fileText.classList.add('hidden');
                         errorText.classList.add('show');
                     }
                 } else {
-                    // Сбрасываем к стандартному виду
                     fileText.textContent = 'Выбрать файл';
                     fileText.classList.remove('hidden');
                     errorText.classList.remove('show');
@@ -1086,10 +965,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 /*- gl-select -*/
 document.addEventListener("DOMContentLoaded", () => {
-    // Находим все элементы с классом .gl-select
     const glSelects = document.querySelectorAll(".gl-select");
 
-    if (glSelects.length === 0) return; // Если блоков нет, ничего не делаем
+    if (glSelects.length === 0) return;
 
     glSelects.forEach((glSelect) => {
         const selectField = glSelect.querySelector(".gl-select__field");
@@ -1099,13 +977,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const searchInput = searchContainer ? searchContainer.querySelector("input[type='text']") : null;
         const scrollContainer = dropdown.querySelector(".gl-select__scroll");
         const items = scrollContainer.querySelectorAll("li");
-        const glSelectBlock = document.querySelector('.gl-select-checkbox__field'); // Другой интерактивный блок на странице
+        const glSelectBlock = document.querySelector('.gl-select-checkbox__field');
 
-        if (!selectField || !dropdown || !input || !scrollContainer) return; // Если структуры нет, пропускаем
+        if (!selectField || !dropdown || !input || !scrollContainer) return;
 
-        // Функция для открытия/закрытия dropdown
         const toggleDropdown = (event) => {
-            event.stopPropagation(); // Предотвращаем всплытие события
+            event.stopPropagation();
             glSelects.forEach((item) => {
                 if (item !== glSelect) {
                     item.classList.remove("open");
@@ -1117,69 +994,59 @@ document.addEventListener("DOMContentLoaded", () => {
             dropdown.classList.toggle("show");
         };
 
-        // Закрытие при клике вне
         const closeDropdown = () => {
             glSelect.classList.remove("open");
             dropdown.classList.remove("show");
         };
 
-        // Обработчик клика на поле
         selectField.addEventListener("click", toggleDropdown);
 
-        // Закрытие при клике на свободное пространство
         document.addEventListener("click", (event) => {
             if (!glSelect.contains(event.target)) {
                 closeDropdown();
             }
         });
 
-        // Закрываем выпадающий список, если был клик на блок с классом gl-select
         if (glSelectBlock) {
             glSelectBlock.addEventListener('click', () => {
                 closeDropdown();
             });
         }
 
-        // Сброс списка к исходному состоянию
         const resetList = () => {
-            if (searchInput) searchInput.value = ""; // Очищаем поле поиска, если оно есть
+            if (searchInput) searchInput.value = "";
             items.forEach((item) => {
-                item.style.display = ""; // Показываем все элементы
+                item.style.display = "";
             });
         };
 
-        // Выбор текста из списка
         scrollContainer.addEventListener("click", (event) => {
             const li = event.target.closest("li");
             const span = li ? li.querySelector("span") : null;
 
             if (li && span) {
-                // Удаляем класс active у всех элементов
                 items.forEach((item) => item.classList.remove("active"));
 
-                // Добавляем класс active к выбранному элементу
                 li.classList.add("active");
 
-                // Переносим текст в input
                 input.value = span.textContent;
-                input.setAttribute("readonly", true); // Делаем input readonly
-                resetList(); // Сбрасываем фильтрацию
-                closeDropdown(); // Закрываем выпадающий список
+                input.setAttribute("readonly", true);
+                resetList();
+                closeDropdown();
             }
         });
 
-        // Фильтрация списка, если блок поиска присутствует
         if (searchInput) {
             searchInput.addEventListener("input", () => {
-                const filter = searchInput.value.toLowerCase(); // Приводим текст к нижнему регистру
+                const filter = searchInput.value.toLowerCase();
                 items.forEach((item) => {
                     const span = item.querySelector("span");
                     if (span) {
                         const text = span.textContent.toLowerCase();
                         if (text.includes(filter)) {
-                            item.style.display = ""; // Показываем, если подходит
+                            item.style.display = "";
                         } else {
-                            item.style.display = "none"; // Скрываем, если не подходит
+                            item.style.display = "none";
                         }
                     }
                 });
@@ -1202,11 +1069,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const glSelectBlock = document.querySelector('.gl-select__field'); // Другой интерактивный блок на странице
 
     if (!selectCheckbox) {
-        //console.warn('Компонент .gl-select-checkbox не найден на странице.');
-        return; // Останавливаем выполнение кода, если элемента нет
+        return;
     }
 
-    // Функция для переключения видимости выпадающего списка
     const toggleDropdown = (event) => {
         event.stopPropagation();
         if (selectCheckbox && dropdown) {
@@ -1218,41 +1083,36 @@ document.addEventListener('DOMContentLoaded', () => {
     // Функция для сброса результатов поиска
     const resetSearch = () => {
         if (!searchInput || !checkboxItems) return;
-        searchInput.value = ''; // Очистка поля поиска
+        searchInput.value = '';
         checkboxItems.forEach((item) => {
-            item.style.display = ''; // Отображаем все элементы
+            item.style.display = '';
         });
     };
 
-    // Функция для закрытия выпадающего списка
     const closeDropdown = () => {
         if (selectCheckbox && dropdown) {
             selectCheckbox.classList.remove('open');
             dropdown.classList.remove('show');
         }
-        resetSearch(); // Сбрасываем результаты поиска при закрытии
+        resetSearch();
     };
 
-    // Обрабатываем клик на поле ввода
     if (selectField) {
         selectField.addEventListener('click', toggleDropdown);
     }
 
-    // Закрываем выпадающий список при клике за его пределами
     document.addEventListener('click', (event) => {
         if (selectCheckbox && !selectCheckbox.contains(event.target)) {
             closeDropdown();
         }
     });
 
-    // Закрываем выпадающий список, если был клик на блок с классом gl-select
     if (glSelectBlock) {
         glSelectBlock.addEventListener('click', () => {
             closeDropdown();
         });
     }
 
-    // Обрабатываем клики на checkbox внутри списка
     if (checkboxItems) {
         checkboxItems.forEach((item) => {
             const checkbox = item.querySelector('input[type="checkbox"]');
@@ -1265,7 +1125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Фильтрация элементов списка при вводе текста в поле поиска
     if (searchInput) {
         searchInput.addEventListener('input', () => {
             const searchValue = searchInput.value.toLowerCase();
@@ -1276,7 +1135,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Функция для обновления значения в поле ввода
     const updateSelectedValues = () => {
         if (!checkboxes || !selectedValuesInput) return;
         const selectedValues = Array.from(checkboxes)
@@ -1287,7 +1145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             : 'Выберите из списка';
     };
 
-    // Обрабатываем кнопку "Применить"
     if (applyButton) {
         applyButton.addEventListener('click', () => {
             updateSelectedValues();
@@ -1295,7 +1152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Обрабатываем кнопку "Сбросить"
     if (resetButton) {
         resetButton.addEventListener('click', () => {
             if (!checkboxes || !checkboxItems) return;
@@ -1315,51 +1171,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const phoneFieldsInList = phoneFieldsList?.querySelectorAll('.phone-fields-list__item');
     const btn = phoneFieldsList?.querySelector('.btn');
 
-    let currentIndex = 0; // Индекс текущего активного поля в списке
+    let currentIndex = 0;
 
-    // Функция проверки полного номера телефона
     const isPhoneValid = (phone) => phone.length === 17; // +998 XX XXX XX XX (17 символов)
 
-    // Универсальная функция для маски ввода телефона
     const formatPhoneInput = (phoneInput) => {
         phoneInput.addEventListener('input', () => {
-            let value = phoneInput.value.replace(/\D/g, ''); // Удаляем все нецифровые символы
+            let value = phoneInput.value.replace(/\D/g, '');
 
-            // Убеждаемся, что префикс "+998" всегда есть
             if (!value.startsWith('998')) {
                 value = '998' + value;
             }
 
-            // Ограничиваем длину до 12 символов (998 XX XXX XX XX)
             value = value.slice(0, 12);
 
-            // Форматируем в маску +998 XX XXX XX XX
             const formattedValue = `+${value.slice(0, 3)} ${value.slice(3, 5)} ${value.slice(5, 8)} ${value.slice(8, 10)} ${value.slice(10, 12)}`;
             phoneInput.value = formattedValue.trim();
         });
 
         phoneInput.addEventListener('keydown', (event) => {
-            // Если нажата клавиша Backspace
             if (event.key === 'Backspace') {
                 const cursorPosition = phoneInput.selectionStart;
                 const value = phoneInput.value;
 
-                // Убедимся, что пользователь не может удалить "+998 "
                 if (cursorPosition <= 5) {
                     event.preventDefault();
                     return;
                 }
 
-                // Если курсор перед символами форматирования (пробел)
                 const prevChar = value[cursorPosition - 1];
                 if (/\s/.test(prevChar)) {
                     event.preventDefault();
 
-                    // Удаляем символ форматирования и перемещаем курсор
                     const newValue = value.slice(0, cursorPosition - 1) + value.slice(cursorPosition);
                     phoneInput.value = newValue;
 
-                    // Устанавливаем новый курсор
                     phoneInput.setSelectionRange(cursorPosition - 1, cursorPosition - 1);
                 }
             }
@@ -1373,18 +1219,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         phoneInput.addEventListener('blur', () => {
             if (phoneInput.value === '+998 ') {
-                phoneInput.value = ''; // Очищаем поле, если пользователь не ввел данные
+                phoneInput.value = '';
             }
         });
     };
 
-    // Маска для всех элементов с классом phone-field
     const phoneInputs = document.querySelectorAll('.phone-field');
     phoneInputs.forEach((phoneInput) => {
         formatPhoneInput(phoneInput);
     });
 
-    // Логика работы с phone-fields-list
     if (phoneFieldsList) {
         const updateButtonState = (input) => {
             if (isPhoneValid(input.value)) {
@@ -1410,15 +1254,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const currentItem = phoneFieldsInList[currentIndex];
                 const nextItem = phoneFieldsInList[currentIndex + 1];
 
-                // Удаляем класс hidden у следующего элемента
                 nextItem.classList.remove('hidden');
                 currentIndex++;
 
-                // Деактивируем кнопку до ввода следующего номера
                 btn.classList.add('btn_no-active');
             }
 
-            // Если последний элемент раскрыт, скрываем кнопку
             if (currentIndex === phoneFieldsInList.length - 1) {
                 btn.classList.add('btn_hidden');
             }
@@ -1459,13 +1300,11 @@ if (passwordForm) {
     const repeatPasswordInput = passwordForm.querySelector("#repeat-password");
     const submitButton = passwordForm.querySelector(".btn[type='submit']");
 
-    // Функция проверки заполненности всех полей
     const checkInputs = () => {
         const isCurrentPasswordFilled = currentPasswordInput.value.trim() !== "";
         const isPasswordFilled = passwordInput.value.trim() !== "";
         const isRepeatPasswordFilled = repeatPasswordInput.value.trim() !== "";
 
-        // Удаляем или добавляем атрибут disabled у кнопки
         if (isCurrentPasswordFilled && isPasswordFilled && isRepeatPasswordFilled) {
             submitButton.removeAttribute("disabled");
         } else {
@@ -1473,7 +1312,6 @@ if (passwordForm) {
         }
     };
 
-    // Добавляем обработчики ввода для каждого поля
     [currentPasswordInput, passwordInput, repeatPasswordInput].forEach(input => {
         input.addEventListener("input", checkInputs);
     });
@@ -1485,14 +1323,13 @@ const mobileMenu = document.querySelector('.mobile-menu');
 const closeBtn = document.querySelector('.mobile-menu__close');
 const body = document.body;
 
-// Функция для открытия меню
 menuBtn.addEventListener('click', () => {
     mobileMenu.classList.add('show');
     body.classList.add('m-scroll-none');
 });
 
-// Функция для закрытия меню
 closeBtn.addEventListener('click', () => {
     mobileMenu.classList.remove('show');
     body.classList.remove('m-scroll-none');
+
 });
